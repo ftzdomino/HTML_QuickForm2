@@ -724,6 +724,7 @@ class HTML_QuickForm2_Renderer_Callback extends HTML_QuickForm2_Renderer
     * we try to match a callback using the element class.
     * But, if the element belongs to a group, callbacks are first looked up
     * using the containing group id, then using the containing group class.
+    * Then it is checked if an callback was defined specifically for the element class.
     * When no callback is found, the provided default callback is returned.
     *
     * @param HTML_QuickForm2_Node $element Element being rendered
@@ -767,6 +768,11 @@ class HTML_QuickForm2_Renderer_Callback extends HTML_QuickForm2_Renderer
                     }
                 }
             } while ($grClass = strtolower(get_parent_class($grClass)));
+
+            $class = strtolower(get_class($element));
+            if (!empty($this->callbacksForClass[$class])) {
+                return $this->callbacksForClass[$class];
+            }
         }
         return $default;
     }
