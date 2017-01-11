@@ -81,8 +81,19 @@ class HTML_QuickForm2_Rule_MimeType extends HTML_QuickForm2_Rule
             return true;
         }
         $mime = $this->getConfig();
-        return is_array($mime)? in_array($value['type'], $mime):
-                                $value['type'] == $mime;
+
+        if (!is_array($mime)) {
+            $mime = array($mime);
+        }
+        if (in_array($value['type'], $mime)) {
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $fmime = finfo_file($finfo, $value['tmp_name']);
+            finfo_close($finfo);
+            if (in_array($fmime, $mime)) {
+                return true;
+            }
+        }
+        return false;
     }
 
    /**
