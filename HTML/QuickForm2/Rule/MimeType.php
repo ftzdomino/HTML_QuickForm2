@@ -85,7 +85,11 @@ class HTML_QuickForm2_Rule_MimeType extends HTML_QuickForm2_Rule
         if (!is_array($mime)) {
             $mime = array($mime);
         }
-        if (in_array($value['type'], $mime)) {
+        if (empty($value['tmp_name'])) {
+            if (in_array($value['type'], $mime)) {
+                return true;
+            }
+        } else {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             $fmime = finfo_file($finfo, $value['tmp_name']);
             finfo_close($finfo);
