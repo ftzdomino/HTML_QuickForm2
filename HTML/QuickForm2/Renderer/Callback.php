@@ -273,7 +273,7 @@ class HTML_QuickForm2_Renderer_Callback extends HTML_QuickForm2_Renderer
 
     public static function _renderHidden(
         HTML_QuickForm2_Renderer $renderer,
-        HTML_QuickForm2_Element_InputHidden $hidden
+        HTML_QuickForm2_Node $hidden
     ) {
         return '<div style="display: none;">'.$hidden->__toString().'</div>';
     }
