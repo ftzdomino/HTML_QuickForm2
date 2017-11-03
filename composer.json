@@ -22,6 +22,9 @@
         "./"
     ],
     "license": "BSD License",
+    "support": {
+        "source": "https://github.com/golgote/HTML_QuickForm2"
+    },
     "type": "library",
     "require": {
         "pear/pear_exception": "*",
