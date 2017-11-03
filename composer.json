@@ -20,18 +20,20 @@
     "include-path": [
         "./"
     ],
-    "license": "BSD",
-    "name": "pear/html_quickform2",
-    "support": {
-        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=HTML_QuickForm2",
-        "source": "https://github.com/pear/HTML_QuickForm2"
-    },
+    "license": "BSD License",
+    "name": "golgote/html_quickform2",
     "type": "library",
     "require": {
         "pear/pear_exception": "*",
-        "pear/html_common2": "*"
+        "golgote/html_common2": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "*"
-    }
+    },
+    "repositories": [
+		{
+			"type": "git",
+			"url": "https://github.com/golgote/HTML_Common2.git"
+		}
+    ]
 }
