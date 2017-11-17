@@ -44,11 +44,6 @@
  */
 
 /**
- * Class with static methods for loading classes and files
- */
-require_once 'HTML/QuickForm2/Loader.php';
-
-/**
  * Abstract base class for QuickForm2 renderers
  *
  * This class serves two main purposes:

@@ -44,12 +44,6 @@
  */
 
 /**
- * Base class for simple HTML_QuickForm2 elements
- */
-require_once 'HTML/QuickForm2/Element.php';
-
-
-/**
  * Collection of <option>s and <optgroup>s
  *
  * This class handles the output of <option> tags. The class is not intended to

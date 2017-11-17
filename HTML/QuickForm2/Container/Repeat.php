@@ -43,11 +43,6 @@
  * @link     http://pear.php.net/package/HTML_QuickForm2
  */
 
-/** Base class for all HTML_QuickForm2 containers */
-require_once 'HTML/QuickForm2/Container.php';
-/** Javascript aggregator and builder class */
-require_once 'HTML/QuickForm2/JavascriptBuilder.php';
-
 /**
  * Javascript builder used when rendering a repeat prototype
  *

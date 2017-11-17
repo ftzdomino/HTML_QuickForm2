@@ -44,11 +44,6 @@
  */
 
 /**
- * Validates values using regular expressions
- */
-require_once 'HTML/QuickForm2/Rule/Regex.php';
-
-/**
  * Checks that the element's value does not match a regular expression
  *
  * The Rule behaves like Regex Rule, but it considers the element valid if its

@@ -43,9 +43,6 @@
  * @link     http://pear.php.net/package/HTML_QuickForm2
  */
 
-/** Interface for Controller action handlers */
-require_once 'HTML/QuickForm2/Controller/Action.php';
-
 /**
  * Action handler for a 'next' button of wizard-type multipage form
  *

@@ -44,11 +44,6 @@
  */
 
 /**
- * Base class for simple HTML_QuickForm2 elements
- */
-require_once 'HTML/QuickForm2/Element.php';
-
-/**
  * Class for <button> elements
  *
  * Note that this element was named 'xbutton' in previous version of QuickForm,

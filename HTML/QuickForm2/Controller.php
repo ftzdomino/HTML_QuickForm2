@@ -43,15 +43,6 @@
  * @link     http://pear.php.net/package/HTML_QuickForm2
  */
 
-/** The class representing a page of a multipage form */
-require_once 'HTML/QuickForm2/Controller/Page.php';
-
-/** Object wrapping around session variable used to store controller data */
-require_once 'HTML/QuickForm2/Controller/SessionContainer.php';
-
-/** Class presenting the values stored in session by Controller as submitted ones */
-require_once 'HTML/QuickForm2/DataSource/Session.php';
-
 /**
  * Class implementing the Page Controller pattern for multipage forms
  *

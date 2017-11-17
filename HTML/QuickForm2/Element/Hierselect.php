@@ -44,22 +44,6 @@
  */
 
 /**
- * Base class for HTML_QuickForm2 groups
- */
-require_once 'HTML/QuickForm2/Container/Group.php';
-
-/**
- * Classes for <select> elements
- */
-require_once 'HTML/QuickForm2/Element/Select.php';
-
-/**
- * Class for adding inline javascript to the form
- */
-require_once 'HTML/QuickForm2/Element/Script.php';
-
-
-/**
  * Hierarchical select element
  *
  * Class to dynamically create two or more HTML Select elements

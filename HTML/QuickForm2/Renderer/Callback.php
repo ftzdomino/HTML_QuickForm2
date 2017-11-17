@@ -44,11 +44,6 @@
  */
 
 /**
- * Abstract base class for QuickForm2 renderers
- */
-require_once 'HTML/QuickForm2/Renderer.php';
-
-/**
  * Callback renderer for QuickForm2
  *
  * This renderer uses PHP callbacks to render form elements

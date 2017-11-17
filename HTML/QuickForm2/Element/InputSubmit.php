@@ -44,11 +44,6 @@
  */
 
 /**
- * Base class for <input> elements
- */
-require_once 'HTML/QuickForm2/Element/Input.php';
-
-/**
  * Class for <input type="submit" /> elements
  *
  * @category HTML

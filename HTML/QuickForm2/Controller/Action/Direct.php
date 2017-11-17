@@ -43,9 +43,6 @@
  * @link     http://pear.php.net/package/HTML_QuickForm2
  */
 
-/** Interface for Controller action handlers */
-require_once 'HTML/QuickForm2/Controller/Action.php';
-
 /**
  * Action handler for going to a specific page of a multipage form
  *

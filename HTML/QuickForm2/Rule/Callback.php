@@ -44,11 +44,6 @@
  */
 
 /**
- * Base class for HTML_QuickForm2 rules
- */
-require_once 'HTML/QuickForm2/Rule.php';
-
-/**
  * Rule checking the value via a callback function (method)
  *
  * The Rule needs a valid callback as a configuration parameter for its work, it

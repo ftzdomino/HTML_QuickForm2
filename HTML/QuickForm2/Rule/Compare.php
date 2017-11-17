@@ -44,11 +44,6 @@
  */
 
 /**
- * Base class for HTML_QuickForm2 rules
- */
-require_once 'HTML/QuickForm2/Rule.php';
-
-/**
  * Rule comparing the value of the field with some other value
  *
  * The Rule needs two configuration parameters for its work

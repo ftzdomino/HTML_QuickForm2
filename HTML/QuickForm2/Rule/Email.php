@@ -44,11 +44,6 @@
  */
 
 /**
- * Base class for HTML_QuickForm2 rules
- */
-require_once 'HTML/QuickForm2/Rule.php';
-
-/**
  * Validates email address
  *
  * Email address format as defined in RFCs 822, 2822 and 5322 is quite complex

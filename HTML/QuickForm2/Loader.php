@@ -44,11 +44,6 @@
  */
 
 /**
- * Exception classes for HTML_QuickForm2
- */
-require_once 'HTML/QuickForm2/Exception.php';
-
-/**
  * Class with static methods for loading classes and files
  *
  * @category HTML
@@ -82,11 +77,9 @@ class HTML_QuickForm2_Loader
         if (empty($includeFile)) {
             $includeFile = str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
         }
-        // Do not silence the errors with @, parse errors will not be seen
-        include $includeFile;
 
         // Still no class?
-        if (!class_exists($className, false) && !interface_exists($className, false)) {
+        if (!class_exists($className, true) && !interface_exists($className, true)) {
             if (!self::fileExists($includeFile)) {
                 throw new HTML_QuickForm2_NotFoundException(
                     "File '$includeFile' was not found"

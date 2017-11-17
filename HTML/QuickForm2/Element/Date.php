@@ -44,15 +44,6 @@
  */
 
 /**
- * Base class for HTML_QuickForm2 group of elements
- */
-require_once 'HTML/QuickForm2/Container/Group.php';
-/**
- * Base class for HTML_QuickForm2 select element
- */
-require_once 'HTML/QuickForm2/Element/Select.php';
-
-/**
  * Class for a group of elements used to input dates (and times).
  *
  * @category HTML

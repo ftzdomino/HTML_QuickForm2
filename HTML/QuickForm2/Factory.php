@@ -44,11 +44,6 @@
  */
 
 /**
- * Class with static methods for loading classes and files
- */
-require_once 'HTML/QuickForm2/Loader.php';
-
-/**
  * Static factory class
  *
  * The class handles instantiation of Element and Rule objects as well as

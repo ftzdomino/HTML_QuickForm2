@@ -44,11 +44,6 @@
  */
 
 /**
- * Class for static elements that only contain text or markup
- */
-require_once 'HTML/QuickForm2/Element/Static.php';
-
-/**
  * Class for adding inline javascript to the form
  *
  * Unlike scripts added to {@link HTML_QuickForm2_JavascriptBuilder} this is

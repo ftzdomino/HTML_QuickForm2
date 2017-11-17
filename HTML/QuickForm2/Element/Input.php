@@ -44,11 +44,6 @@
  */
 
 /**
- * Base class for simple HTML_QuickForm2 elements (not Containers)
- */
-require_once 'HTML/QuickForm2/Element.php';
-
-/**
  * Base class for <input> elements
  *
  * @category HTML

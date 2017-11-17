@@ -44,11 +44,6 @@
  */
 
 /**
- * Interface for data sources used by HTML_QuickForm2 objects
- */
-require_once 'HTML/QuickForm2/DataSource.php';
-
-/**
  * Interface for data sources containing submitted values
  *
  * This interface provides method for getting information on uploaded files.

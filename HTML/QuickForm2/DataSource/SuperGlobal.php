@@ -44,16 +44,6 @@
  */
 
 /**
- * Interface for data sources containing submitted values
- */
-require_once 'HTML/QuickForm2/DataSource/Submit.php';
-
-/**
- * Array-based data source for HTML_QuickForm2 objects
- */
-require_once 'HTML/QuickForm2/DataSource/Array.php';
-
-/**
  * Data source for HTML_QuickForm2 objects based on superglobal arrays
  *
  * @category HTML

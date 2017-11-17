@@ -44,11 +44,6 @@
  */
 
 /**
- * Base class for all HTML_QuickForm2 containers
- */
-require_once 'HTML/QuickForm2/Container.php';
-
-/**
  * Base class for QuickForm2 groups of elements
  *
  * @category HTML

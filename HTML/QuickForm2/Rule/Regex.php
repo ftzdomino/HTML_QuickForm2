@@ -44,11 +44,6 @@
  */
 
 /**
- * Base class for HTML_QuickForm2 rules
- */
-require_once 'HTML/QuickForm2/Rule.php';
-
-/**
  * Validates values using regular expressions
  *
  * The Rule needs one configuration parameter for its work: a Perl-compatible

@@ -44,11 +44,6 @@
  */
 
 /**
- * Base class for checkboxes and radios
- */
-require_once 'HTML/QuickForm2/Element/InputCheckable.php';
-
-/**
  * Class for <input type="radio" /> elements
  *
  * @category HTML

@@ -43,9 +43,6 @@
  * @link     http://pear.php.net/package/HTML_QuickForm2
  */
 
-/** Interface for classes that supply (translated) messages for the elements */
-require_once 'HTML/QuickForm2/MessageProvider.php';
-
 /**
  * Provides lists of months and weekdays for date elements using current locale
  *

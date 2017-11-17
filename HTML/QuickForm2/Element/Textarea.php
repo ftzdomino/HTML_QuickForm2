@@ -44,11 +44,6 @@
  */
 
 /**
- * Base class for simple HTML_QuickForm2 elements
- */
-require_once 'HTML/QuickForm2/Element.php';
-
-/**
  * Class for <textarea> elements
  *
  * @category HTML

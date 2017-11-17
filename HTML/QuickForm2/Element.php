@@ -44,11 +44,6 @@
  */
 
 /**
- * Base class for all HTML_QuickForm2 elements
- */
-require_once 'HTML/QuickForm2/Node.php';
-
-/**
  * Abstract base class for simple QuickForm2 elements (not Containers)
  *
  * @category HTML

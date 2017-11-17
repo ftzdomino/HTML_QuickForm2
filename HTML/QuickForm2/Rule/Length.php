@@ -44,11 +44,6 @@
  */
 
 /**
- * Base class for HTML_QuickForm2 rules
- */
-require_once 'HTML/QuickForm2/Rule.php';
-
-/**
  * Rule checking the value's length
  *
  * The rule needs an "allowed length" parameter for its work, it can be either

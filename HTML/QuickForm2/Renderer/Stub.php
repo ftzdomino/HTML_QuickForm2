@@ -44,11 +44,6 @@
  */
 
 /**
- * Abstract base class for QuickForm2 renderers
- */
-require_once 'HTML/QuickForm2/Renderer.php';
-
-/**
  * A stub renderer to use with HTML_QuickForm2 when actual form output is done manually
  *
  * The rendering step is mandatory if the form uses client-side validation
