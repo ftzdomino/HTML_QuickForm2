@@ -173,19 +173,20 @@ qf.elements.hierselect = (function(){
          */
         replaceOptions: function(ctl, options)
         {
-            function unescapeEntities(str)
-            {
-                var div = document.createElement('div');
-                div.innerHTML = str;
-                return div.childNodes[0] ? div.childNodes[0].nodeValue : '';
-            }
-
-            ctl.options.length = 0;
-            for (var i = 0; i < options.values.length; i++) {
-                ctl.options[i] = new Option(
-                    -1 == String(options.texts[i]).indexOf('&')? options.texts[i]: unescapeEntities(options.texts[i]),
-                    options.values[i], false, false
-                );
+            if (typeof(ctl.options) !== 'undefined') {
+                function unescapeEntities(str)
+                {
+                    var div = document.createElement('div');
+                    div.innerHTML = str;
+                    return div.childNodes[0] ? div.childNodes[0].nodeValue : '';
+                }
+                ctl.options.length = 0;
+                for (var i = 0; i < options.values.length; i++) {
+                    ctl.options[i] = new Option(
+                        -1 == String(options.texts[i]).indexOf('&')? options.texts[i]: unescapeEntities(options.texts[i]),
+                        options.values[i], false, false
+                    );
+                }
             }
         },
 
