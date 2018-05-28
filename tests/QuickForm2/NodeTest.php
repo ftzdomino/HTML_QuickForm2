@@ -244,7 +244,7 @@ class HTML_QuickForm2_NodeTest extends PHPUnit_Framework_TestCase
     * Disallow spaces in values of 'id' attributes
     *
     * @dataProvider invalidIdProvider
-    * @expectedException HTML_QuickForm2_InvalidArgumentException
+    * @expectedException HTML_QuickForm2_Exception_InvalidArgument
     * @link http://pear.php.net/bugs/17576
     */
     public function testRequest18683($id)

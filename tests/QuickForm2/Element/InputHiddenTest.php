@@ -58,7 +58,7 @@ class HTML_QuickForm2_Element_InputHiddenTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException HTML_QuickForm2_InvalidArgumentException
+     * @expectedException HTML_QuickForm2_Exception_InvalidArgument
      */
     public function testCannotSetError()
     {

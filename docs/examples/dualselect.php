@@ -33,7 +33,7 @@ class HTML_QuickForm2_Element_DualSelect extends HTML_QuickForm2_Element_Select
     protected function onAttributeChange($name, $value = null)
     {
         if ('multiple' == $name && 'multiple' != $value) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 "Required 'multiple' attribute cannot be changed"
             );
         }

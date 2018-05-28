@@ -126,16 +126,16 @@ class HTML_QuickForm2_ElementTest extends PHPUnit_Framework_TestCase
         $obj = new HTML_QuickForm2_ElementImpl('somename', array(), array('id' => 'someid'));
         try {
             $obj->removeAttribute('name');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegExp('/Required attribute(.*)can not be removed/', $e->getMessage());
             try {
                 $obj->removeAttribute('id');
-            } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
                 $this->assertRegExp('/Required attribute(.*)can not be removed/', $e->getMessage());
                 return;
             }
         }
-        $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
+        $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
     }
 
 

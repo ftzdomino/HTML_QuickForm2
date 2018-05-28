@@ -174,12 +174,12 @@ class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
      *      array of keys and should return {'values': [...], 'texts': [...]}
      *
      * @return  HTML_QuickForm2_Element_Hierselect
-     * @throws  HTML_QuickForm2_InvalidArgumentException
+     * @throws  HTML_QuickForm2_Exception_InvalidArgument
      */
     public function loadOptions(array $options, $callback = null, $jsCallback = null)
     {
         if (null !== $callback && !is_callable($callback, false, $callbackName)) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'Hierselect expects a valid callback for loading options, \'' .
                 $callbackName . '\' was given'
             );

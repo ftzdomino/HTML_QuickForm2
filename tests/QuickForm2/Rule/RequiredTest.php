@@ -70,16 +70,16 @@ class HTML_QuickForm2_Rule_RequiredTest extends PHPUnit_Framework_TestCase
                                                    array($mockNode, 'some message')));
         try {
             $rule->and_(new HTML_QuickForm2_Rule_Required($mockNode, 'element is required'));
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/Cannot add a "required" rule/', $e->getMessage());
             try {
                 $rule->or_(new HTML_QuickForm2_Rule_Required($mockNode, 'element is required'));
-            } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
                 $this->assertRegexp('/Cannot add a "required" rule/', $e->getMessage());
                 return;
             }
         }
-        $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
+        $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
     }
 
     public function testCannotAppendWithOr_()
@@ -98,7 +98,7 @@ class HTML_QuickForm2_Rule_RequiredTest extends PHPUnit_Framework_TestCase
 
    /**
     * @link http://pear.php.net/bugs/18133
-    * @expectedException HTML_QuickForm2_InvalidArgumentException
+    * @expectedException HTML_QuickForm2_Exception_InvalidArgument
     */
     public function testCannotHaveEmptyMessage()
     {

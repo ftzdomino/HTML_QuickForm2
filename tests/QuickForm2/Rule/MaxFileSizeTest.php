@@ -55,14 +55,14 @@ class HTML_QuickForm2_Rule_MaxFileSizeTest extends PHPUnit_Framework_TestCase
         $file    = new HTML_QuickForm2_Element_InputFile('foo');
         try {
             $maxSize = new HTML_QuickForm2_Rule_MaxFileSize($file, 'an error');
-            $this->fail('The expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('The expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/MaxFileSize Rule requires a positive size limit/', $e->getMessage());
         }
         try {
             $maxSizeNegative = new HTML_QuickForm2_Rule_MaxFileSize($file, 'an error', -10);
-            $this->fail('The expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('The expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/MaxFileSize Rule requires a positive size limit/', $e->getMessage());
         }
     }
@@ -73,11 +73,11 @@ class HTML_QuickForm2_Rule_MaxFileSizeTest extends PHPUnit_Framework_TestCase
                                   'getRawValue', 'setValue', '__toString'));
         try {
             $maxSize = new HTML_QuickForm2_Rule_MaxFileSize($mockEl, 'an error', 1024);
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/MaxFileSize Rule can only validate file upload fields/', $e->getMessage());
             return;
         }
-        $this->fail('The expected HTML_QuickForm2_InvalidArgumentException was not thrown');
+        $this->fail('The expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
     }
 
     public function testMissingUploadsAreSkipped()

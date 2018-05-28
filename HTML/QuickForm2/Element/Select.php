@@ -341,7 +341,7 @@ class HTML_QuickForm2_Element_Select extends HTML_QuickForm2_Element
     * @param string|array $attributes Attributes (either a string or an array)
     * @param array        $data       Additional element data
     *
-    * @throws   HTML_QuickForm2_InvalidArgumentException    if junk is given in $options
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument    if junk is given in $options
     */
     public function __construct($name = null, $attributes = null, array $data = array())
     {
@@ -494,7 +494,7 @@ class HTML_QuickForm2_Element_Select extends HTML_QuickForm2_Element
     *
     * @param array $options
     *
-    * @throws   HTML_QuickForm2_InvalidArgumentException    if junk is given in $options
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument    if junk is given in $options
     * @return   HTML_QuickForm2_Element_Select
     */
     public function loadOptions(array $options)

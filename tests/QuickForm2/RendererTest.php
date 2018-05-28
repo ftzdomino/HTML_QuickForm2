@@ -138,11 +138,11 @@ class HTML_QuickForm2_RendererTest extends PHPUnit_Framework_TestCase
 
         try {
             HTML_QuickForm2_Renderer::registerPlugin($type, 'HTML_QuickForm2_FakeRenderer_HelloPlugin');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/already registered/', $e->getMessage());
             return;
         }
-        $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
+        $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
     }
 
     public function testDuplicateMethodNamesDisallowed()
@@ -155,11 +155,11 @@ class HTML_QuickForm2_RendererTest extends PHPUnit_Framework_TestCase
         try {
             $renderer = HTML_Quickform2_Renderer::factory($type);
             $renderer->sayHello();
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/^Duplicate method name/', $e->getMessage());
             return;
         }
-        $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
+        $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
     }
 }
 ?>

@@ -74,8 +74,8 @@ class HTML_QuickForm2_JavascriptBuilderTest extends PHPUnit_Framework_TestCase
         try {
             $fp = fopen(__FILE__, 'rb');
             HTML_QuickForm2_JavascriptBuilder::encode($fp);
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {}
         fclose($fp);
     }
 
@@ -106,8 +106,8 @@ class HTML_QuickForm2_JavascriptBuilderTest extends PHPUnit_Framework_TestCase
 
         try {
             $libraries = $builder->getLibraries(true);
-            $this->fail('Expected HTML_QuickForm2_NotFoundException was not thrown');
-        } catch (HTML_QuickForm2_NotFoundException $e) { }
+            $this->fail('Expected HTML_QuickForm2_Exception_NotFound was not thrown');
+        } catch (HTML_QuickForm2_Exception_NotFound $e) { }
     }
 
     public function testFormJavascript()

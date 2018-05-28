@@ -110,7 +110,7 @@ class HTML_QuickForm2_Element_Static extends HTML_QuickForm2_Element
     * @param string $name  Attribute name
     * @param string $value Attribute value, null if attribute is being removed
     *
-    * @throws   HTML_QuickForm2_InvalidArgumentException    if trying to
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument    if trying to
     *                                   remove a required attribute
     */
     protected function onAttributeChange($name, $value = null)
@@ -256,7 +256,7 @@ class HTML_QuickForm2_Element_Static extends HTML_QuickForm2_Element
     * @param string $name         tag name
     * @param bool   $forceClosing whether to output closing tag in case of empty contents
     *
-    * @throws HTML_QuickForm2_InvalidArgumentException when trying to set a tag
+    * @throws HTML_QuickForm2_Exception_InvalidArgument when trying to set a tag
     *       name corresponding to a form element
     * @return HTML_QuickForm2_Element_Static
     */
@@ -266,7 +266,7 @@ class HTML_QuickForm2_Element_Static extends HTML_QuickForm2_Element
         if (in_array(strtolower($name),
                      array('form', 'fieldset', 'button', 'input', 'select', 'textarea'))
         ) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 "Do not use tag name '{$name}' with Static element, use proper element class"
             );
         }

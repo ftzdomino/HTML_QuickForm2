@@ -76,18 +76,18 @@ class HTML_QuickForm2_Container_RepeatTest extends PHPUnit_Framework_TestCase
 
         try {
             $repeat->appendChild($text);
-            $this->fail('Expected HTML_QuickForm2_NotFoundException not found');
-        } catch (HTML_QuickForm2_NotFoundException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_NotFound not found');
+        } catch (HTML_QuickForm2_Exception_NotFound $e) {}
 
         try {
             $repeat->insertBefore($text);
-            $this->fail('Expected HTML_QuickForm2_NotFoundException not found');
-        } catch (HTML_QuickForm2_NotFoundException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_NotFound not found');
+        } catch (HTML_QuickForm2_Exception_NotFound $e) {}
 
         try {
             $repeat->render(HTML_QuickForm2_Renderer::factory('default'));
-            $this->fail('Expected HTML_QuickForm2_NotFoundException not found');
-        } catch (HTML_QuickForm2_NotFoundException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_NotFound not found');
+        } catch (HTML_QuickForm2_Exception_NotFound $e) {}
     }
 
     public function testElementsAreAddedToPrototype()

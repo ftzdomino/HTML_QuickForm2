@@ -88,12 +88,12 @@ class HTML_QuickForm2_Rule_MaxFileSize extends HTML_QuickForm2_Rule
     * @param int $config Maximum allowed size
     *
     * @return   HTML_QuickForm2_Rule
-    * @throws   HTML_QuickForm2_InvalidArgumentException    if a bogus size limit was provided
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument    if a bogus size limit was provided
     */
     public function setConfig($config)
     {
         if (0 >= $config) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'MaxFileSize Rule requires a positive size limit, ' .
                 preg_replace('/\s+/', ' ', var_export($config, true)) . ' given'
             );
@@ -106,13 +106,13 @@ class HTML_QuickForm2_Rule_MaxFileSize extends HTML_QuickForm2_Rule
     *
     * @param HTML_QuickForm2_Node $owner File upload field to validate
     *
-    * @throws   HTML_QuickForm2_InvalidArgumentException    if trying to use
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument    if trying to use
     *           this Rule on something that isn't a file upload field
     */
     public function setOwner(HTML_QuickForm2_Node $owner)
     {
         if (!$owner instanceof HTML_QuickForm2_Element_InputFile) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'MaxFileSize Rule can only validate file upload fields, '.
                 get_class($owner) . ' given'
             );

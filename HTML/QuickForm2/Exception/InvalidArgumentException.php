@@ -50,7 +50,7 @@
  * <code>
  * try {
  *     $el = HTML_QuickForm2_Factory::createElement('unknown');
- * } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+ * } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
  *     echo $e->getMessage();
  * }
  * </code>
@@ -63,6 +63,6 @@
  * @license  http://opensource.org/licenses/bsd-license.php New BSD License
  * @link     http://pear.php.net/package/HTML_QuickForm2
  */
-class HTML_QuickForm2_InvalidArgumentException extends HTML_QuickForm2_Exception
+class HTML_QuickForm2_Exception_InvalidArgument extends HTML_QuickForm2_Exception
 {
 }

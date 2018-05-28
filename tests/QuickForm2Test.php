@@ -123,18 +123,18 @@ class HTML_QuickForm2Test extends PHPUnit_Framework_TestCase
 
         try {
             $form->removeAttribute('id');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             try {
                 $form->setAttribute('method', 'post');
-            } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
                 try {
                     $form->setId('newId');
-                } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+                } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
                     return;
                 }
             }
         }
-        $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
+        $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
     }
 
     public function testCannotAddToContainer()
@@ -165,10 +165,10 @@ class HTML_QuickForm2Test extends PHPUnit_Framework_TestCase
 
         try {
             $form->setDataSources(array($ds1, 'bogus', $ds2));
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             return;
         }
-        $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
+        $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
     }
 
     public function testValidateChecksWhetherFormIsSubmitted()

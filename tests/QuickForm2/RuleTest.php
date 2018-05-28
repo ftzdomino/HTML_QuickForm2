@@ -252,8 +252,8 @@ class HTML_QuickForm2_RuleTest extends PHPUnit_Framework_TestCase
                 'HTML_QuickForm2_Rule', array('validateOwner'),
                 array($hidden, 'an error message')
             );
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {}
 
         try {
             $rule = $this->getMock(
@@ -261,8 +261,8 @@ class HTML_QuickForm2_RuleTest extends PHPUnit_Framework_TestCase
                 array($text, 'an error message')
             );
             $rule->setOwner($hidden);
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {}
     }
 }
 ?>

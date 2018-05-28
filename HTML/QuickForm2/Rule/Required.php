@@ -93,12 +93,12 @@ class HTML_QuickForm2_Rule_Required extends HTML_QuickForm2_Rule_Nonempty
     * @param string $message Error message to display if validation fails
     *
     * @return   HTML_QuickForm2_Rule
-    * @throws   HTML_QuickForm2_InvalidArgumentException
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument
     */
     public function setMessage($message)
     {
         if (!strlen($message)) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 '"required" rule cannot have an empty error message'
             );
         }

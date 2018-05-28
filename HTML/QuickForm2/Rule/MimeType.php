@@ -101,12 +101,12 @@ class HTML_QuickForm2_Rule_MimeType extends HTML_QuickForm2_Rule
     * @param string|array $config Allowed MIME type or an array of types
     *
     * @return   HTML_QuickForm2_Rule
-    * @throws   HTML_QuickForm2_InvalidArgumentException    if bogus configuration provided
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument    if bogus configuration provided
     */
     public function setConfig($config)
     {
         if (0 == count($config) || !is_string($config) && !is_array($config)) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'MimeType Rule requires MIME type(s), ' .
                 preg_replace('/\s+/', ' ', var_export($config, true)) . ' given'
             );
@@ -119,13 +119,13 @@ class HTML_QuickForm2_Rule_MimeType extends HTML_QuickForm2_Rule
     *
     * @param HTML_QuickForm2_Node $owner File upload field to validate
     *
-    * @throws   HTML_QuickForm2_InvalidArgumentException    if trying to use
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument    if trying to use
     *           this Rule on something that isn't a file upload field
     */
     public function setOwner(HTML_QuickForm2_Node $owner)
     {
         if (!$owner instanceof HTML_QuickForm2_Element_InputFile) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'MimeType Rule can only validate file upload fields, '.
                 get_class($owner) . ' given'
             );

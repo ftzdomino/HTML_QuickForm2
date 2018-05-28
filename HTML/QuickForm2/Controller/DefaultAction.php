@@ -76,7 +76,7 @@ class HTML_QuickForm2_Controller_DefaultAction
     protected function onAttributeChange($name, $value = null)
     {
         if ('id' == $name) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 "Attribute 'id' is read-only"
             );
         }

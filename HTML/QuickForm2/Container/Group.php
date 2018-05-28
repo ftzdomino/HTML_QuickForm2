@@ -239,7 +239,7 @@ class HTML_QuickForm2_Container_Group extends HTML_QuickForm2_Container
     * @param HTML_QuickForm2_Node $element Element to add
     *
     * @return   HTML_QuickForm2_Node     Added element
-    * @throws   HTML_QuickForm2_InvalidArgumentException
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument
     */
     public function appendChild(HTML_QuickForm2_Node $element)
     {

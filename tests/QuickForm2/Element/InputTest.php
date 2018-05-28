@@ -68,16 +68,16 @@ class HTML_QuickForm2_Element_InputTest extends PHPUnit_Framework_TestCase
         $obj = new HTML_QuickForm2_Element_InputImpl();
         try {
             $obj->removeAttribute('type');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertEquals("Attribute 'type' is read-only", $e->getMessage());
             try {
                 $obj->setAttribute('type', 'bogus');
-            } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
                 $this->assertEquals("Attribute 'type' is read-only", $e->getMessage());
                 return;
             }
         }
-        $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
+        $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
     }
 
     public function testCanSetAndGetValue()

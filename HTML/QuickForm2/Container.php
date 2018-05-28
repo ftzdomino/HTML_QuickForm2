@@ -239,7 +239,7 @@ abstract class HTML_QuickForm2_Container extends HTML_QuickForm2_Node
     * @param HTML_QuickForm2_Node $element Element to add
     *
     * @return   HTML_QuickForm2_Node     Added element
-    * @throws   HTML_QuickForm2_InvalidArgumentException
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument
     */
     public function appendChild(HTML_QuickForm2_Node $element)
     {
@@ -268,8 +268,8 @@ abstract class HTML_QuickForm2_Container extends HTML_QuickForm2_Node
     * @param array                       $data          Element-specific data
     *
     * @return   HTML_QuickForm2_Node     Added element
-    * @throws   HTML_QuickForm2_InvalidArgumentException
-    * @throws   HTML_QuickForm2_NotFoundException
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument
+    * @throws   HTML_QuickForm2_Exception_NotFound
     */
     public function addElement(
         $elementOrType, $name = null, $attributes = null, array $data = array()
@@ -289,13 +289,13 @@ abstract class HTML_QuickForm2_Container extends HTML_QuickForm2_Node
     * @param HTML_QuickForm2_Node $element Element to remove
     *
     * @return   HTML_QuickForm2_Node     Removed object
-    * @throws   HTML_QuickForm2_NotFoundException
+    * @throws   HTML_QuickForm2_Exception_NotFound
     */
     public function removeChild(HTML_QuickForm2_Node $element)
     {
 
         if ($element->getContainer() !== $this) {
-            throw new HTML_QuickForm2_NotFoundException(
+            throw new HTML_QuickForm2_Exception_NotFound(
                 "Element with name '".$element->getName()."' was not found"
             );
         }
@@ -377,7 +377,7 @@ abstract class HTML_QuickForm2_Container extends HTML_QuickForm2_Node
             }
             $offset++;
         }
-        throw new HTML_QuickForm2_NotFoundException(
+        throw new HTML_QuickForm2_Exception_NotFound(
             "Reference element with name '".$reference->getName()."' was not found"
         );
     }
@@ -468,8 +468,8 @@ abstract class HTML_QuickForm2_Container extends HTML_QuickForm2_Node
     * @param array  $a Method arguments
     *
     * @return   HTML_QuickForm2_Node     Added element
-    * @throws   HTML_QuickForm2_InvalidArgumentException
-    * @throws   HTML_QuickForm2_NotFoundException
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument
+    * @throws   HTML_QuickForm2_Exception_NotFound
     */
     public function __call($m, $a)
     {

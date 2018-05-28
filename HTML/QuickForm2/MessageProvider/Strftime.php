@@ -96,13 +96,13 @@ class HTML_QuickForm2_MessageProvider_Strftime implements HTML_QuickForm2_Messag
     * @param string $langId    Not used, current locale will define the language
     *
     * @return   array|string|null
-    * @throws   HTML_QuickForm2_InvalidArgumentException if $messageId doesn't
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument if $messageId doesn't
     *               start with 'date'
     */
     public function get(array $messageId, $langId = null)
     {
         if ('date' != array_shift($messageId)) {
-            throw new HTML_QuickForm2_InvalidArgumentException('...');
+            throw new HTML_QuickForm2_Exception_InvalidArgument('...');
         }
 
         $message = $this->messages;

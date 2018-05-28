@@ -109,7 +109,7 @@ class HTML_QuickForm2 extends HTML_QuickForm2_Container
 
     protected function onAttributeChange($name, $value = null)
     {
-        throw new HTML_QuickForm2_InvalidArgumentException(
+        throw new HTML_QuickForm2_Exception_InvalidArgument(
             'Attribute \'' . $name . '\' is read-only'
         );
     }
@@ -121,7 +121,7 @@ class HTML_QuickForm2 extends HTML_QuickForm2_Container
 
     public function setId($id = null)
     {
-        throw new HTML_QuickForm2_InvalidArgumentException(
+        throw new HTML_QuickForm2_Exception_InvalidArgument(
             "Attribute 'id' is read-only"
         );
     }
@@ -143,14 +143,14 @@ class HTML_QuickForm2 extends HTML_QuickForm2_Container
     *
     * @param array $datasources A new data source list
     *
-    * @throws   HTML_QuickForm2_InvalidArgumentException    if given array
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument    if given array
     *               contains something that is not a valid data source
     */
     public function setDataSources(array $datasources)
     {
         foreach ($datasources as $ds) {
             if (!$ds instanceof HTML_QuickForm2_DataSource) {
-                throw new HTML_QuickForm2_InvalidArgumentException(
+                throw new HTML_QuickForm2_Exception_InvalidArgument(
                     'Array should contain only DataSource instances'
                 );
             }

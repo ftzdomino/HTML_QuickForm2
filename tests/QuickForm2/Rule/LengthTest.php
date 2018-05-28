@@ -56,14 +56,14 @@ class HTML_QuickForm2_Rule_LengthTest extends PHPUnit_Framework_TestCase
                                  'getRawValue', 'setValue', '__toString'));
         try {
             $length = new HTML_QuickForm2_Rule_Length($mockEl, 'an error');
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/Length Rule requires at least one non-zero limit/', $e->getMessage());
         }
         try {
             $length2 = new HTML_QuickForm2_Rule_Length($mockEl, 'another error', array());
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/Length Rule requires at least one non-zero limit/', $e->getMessage());
         }
     }
@@ -74,14 +74,14 @@ class HTML_QuickForm2_Rule_LengthTest extends PHPUnit_Framework_TestCase
                                  'getRawValue', 'setValue', '__toString'));
         try {
             $lengthZero = new HTML_QuickForm2_Rule_Length($mockEl, 'an error', 0);
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/Length Rule requires at least one non-zero limit/', $e->getMessage());
         }
         try {
             $lengthNegative = new HTML_QuickForm2_Rule_Length($mockEl, 'an error', -1);
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/Length Rule requires limits to be nonnegative/', $e->getMessage());
             return;
         }
@@ -94,14 +94,14 @@ class HTML_QuickForm2_Rule_LengthTest extends PHPUnit_Framework_TestCase
         try {
             $lengthZeros = new HTML_QuickForm2_Rule_Length($mockEl, 'an error',
                                                            array('min' => 0, 'max' => 0));
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/Length Rule requires at least one non-zero limit/', $e->getMessage());
         }
         try {
             $lengthNegative = new HTML_QuickForm2_Rule_Length($mockEl, 'an error',
                                                               array('min' => -1, 'max' => 1));
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/Length Rule requires limits to be nonnegative/', $e->getMessage());
         }
     }

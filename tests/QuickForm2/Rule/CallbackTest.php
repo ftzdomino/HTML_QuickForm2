@@ -61,15 +61,15 @@ class HTML_QuickForm2_Rule_CallbackTest extends PHPUnit_Framework_TestCase
                                   'getRawValue', 'setValue', '__toString'));
         try {
             $callbackMissing = new HTML_QuickForm2_Rule_Callback($mockEl, 'an error');
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/Callback Rule requires a valid callback/', $e->getMessage());
         }
         try {
             $callbackBogus = new HTML_QuickForm2_Rule_Callback($mockEl, 'an error',
                                     array('callback' => 'bogusfunctionname'));
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/Callback Rule requires a valid callback/', $e->getMessage());
         }
     }

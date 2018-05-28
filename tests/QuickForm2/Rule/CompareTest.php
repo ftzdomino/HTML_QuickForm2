@@ -56,14 +56,14 @@ class HTML_QuickForm2_Rule_CompareTest extends PHPUnit_Framework_TestCase
                                   'getRawValue', 'setValue', '__toString'));
         try {
             $compare = new HTML_QuickForm2_Rule_Compare($mockEl, 'some error');
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/Compare Rule requires an argument to compare with/', $e->getMessage());
         }
         try {
             $compare2 = new HTML_QuickForm2_Rule_Compare($mockEl, 'some error', array());
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e2) {
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e2) {
             $this->assertRegexp('/Compare Rule requires an argument to compare with/', $e2->getMessage(), 'Wrong exception');
         }
     }
@@ -104,8 +104,8 @@ class HTML_QuickForm2_Rule_CompareTest extends PHPUnit_Framework_TestCase
                                   'getRawValue', 'setValue', '__toString'));
         try {
             $bogus = new HTML_QuickForm2_Rule_Compare($mockEl, 'bogus error', array('foo', 'bar'));
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegexp('/Compare Rule requires a valid comparison operator/', $e->getMessage());
         }
     }

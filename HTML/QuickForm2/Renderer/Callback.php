@@ -529,7 +529,7 @@ class HTML_QuickForm2_Renderer_Callback extends HTML_QuickForm2_Renderer
         if (is_callable($callback) || is_null($callback)) {
             return true;
         }
-        throw new HTML_QuickForm2_InvalidArgumentException(
+        throw new HTML_QuickForm2_Exception_InvalidArgument(
             "Renderer callback is invalid"
         );
     }

@@ -65,7 +65,7 @@ class HTML_QuickForm2_Element_Input extends HTML_QuickForm2_Element
     protected function onAttributeChange($name, $value = null)
     {
         if ('type' == $name) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 "Attribute 'type' is read-only"
             );
         }

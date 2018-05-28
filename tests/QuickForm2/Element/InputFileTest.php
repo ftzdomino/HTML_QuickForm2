@@ -115,7 +115,7 @@ class HTML_QuickForm2_Element_InputFileTest extends PHPUnit_Framework_TestCase
     }
 
    /**
-    * @expectedException HTML_QuickForm2_InvalidArgumentException
+    * @expectedException HTML_QuickForm2_Exception_InvalidArgument
     */
     public function testInvalidMessageProvider()
     {
@@ -157,15 +157,15 @@ class HTML_QuickForm2_Element_InputFileTest extends PHPUnit_Framework_TestCase
 
         try {
             $form->addFile('upload', array('id' => 'upload'));
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {}
 
         $group = HTML_QuickForm2_Factory::createElement('group', 'fileGroup');
         $group->addFile('upload', array('id' => 'upload'));
         try {
             $form->appendChild($group);
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {}
 
         $post = new HTML_QuickForm2('okform', 'post');
         $this->assertNull($post->getAttribute('enctype'));

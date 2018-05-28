@@ -207,13 +207,13 @@ class HTML_QuickForm2_Rule_Compare extends HTML_QuickForm2_Rule
     * @param mixed $config Configuration data
     *
     * @return   HTML_QuickForm2_Rule
-    * @throws   HTML_QuickForm2_InvalidArgumentException if a bogus comparison
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument if a bogus comparison
     *           operator is used for configuration, if an operand is missing
     */
     public function setConfig($config)
     {
         if (0 == count($config)) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'Compare Rule requires an argument to compare with'
             );
         }
@@ -221,7 +221,7 @@ class HTML_QuickForm2_Rule_Compare extends HTML_QuickForm2_Rule
 
         $config += array('operator' => '===');
         if (!in_array($config['operator'], $this->operators)) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'Compare Rule requires a valid comparison operator, ' .
                 preg_replace('/\s+/', ' ', var_export($config['operator'], true)) . ' given'
             );

@@ -152,16 +152,16 @@ class HTML_QuickForm2_ContainerTest extends PHPUnit_Framework_TestCase
         $obj = new HTML_QuickForm2_ContainerImpl('somename', array(), array('id' => 'someid'));
         try {
             $obj->removeAttribute('name');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertRegExp('/Required attribute(.*)can not be removed/', $e->getMessage());
             try {
                 $obj->removeAttribute('id');
-            } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
                 $this->assertRegExp('/Required attribute(.*)can not be removed/', $e->getMessage());
                 return;
             }
         }
-        $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
+        $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
     }
 
 
@@ -208,18 +208,18 @@ class HTML_QuickForm2_ContainerTest extends PHPUnit_Framework_TestCase
         $c1->appendChild($e2);
         try {
             $c1->appendChild($c1);
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertEquals('Cannot set an element or its child as its own container', $e->getMessage());
             $c2 = new HTML_QuickForm2_ContainerImpl('f2');
             $c2->appendChild($c1);
             try {
                 $c1->appendChild($c2);
-            } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
                 $this->assertEquals('Cannot set an element or its child as its own container', $e->getMessage());
                 return;
             }
         }
-        $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
+        $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
     }
 
 
@@ -282,16 +282,16 @@ class HTML_QuickForm2_ContainerTest extends PHPUnit_Framework_TestCase
 
         try {
             $c1->removeChild($e1);
-        } catch (HTML_QuickForm2_NotFoundException $e) {
+        } catch (HTML_QuickForm2_Exception_NotFound $e) {
             $this->assertRegExp('/Element(.*)was not found/', $e->getMessage());
             try {
                 $c1->removeChild($e2);
-            } catch (HTML_QuickForm2_NotFoundException $e) {
+            } catch (HTML_QuickForm2_Exception_NotFound $e) {
                 $this->assertRegExp('/Element(.*)was not found/', $e->getMessage());
                 return;
             }
         }
-        $this->fail('Expected HTML_QuickForm2_NotFoundException was not thrown');
+        $this->fail('Expected HTML_QuickForm2_Exception_NotFound was not thrown');
     }
 
     public function testInsertBefore()
@@ -334,16 +334,16 @@ class HTML_QuickForm2_ContainerTest extends PHPUnit_Framework_TestCase
         $c2->appendChild($c1);
         try {
             $c1->insertBefore($e2, $e3);
-        } catch (HTML_QuickForm2_NotFoundException $e) {
+        } catch (HTML_QuickForm2_Exception_NotFound $e) {
             $this->assertEquals("Reference element with name '".$e3->getName()."' was not found", $e->getMessage());
             try {
                 $c2->insertBefore($e2, $e1);
-            } catch (HTML_QuickForm2_NotFoundException $e) {
+            } catch (HTML_QuickForm2_Exception_NotFound $e) {
                 $this->assertEquals("Reference element with name '".$e1->getName()."' was not found", $e->getMessage());
                 return;
             }
         }
-        $this->fail('Expected HTML_QuickForm2_NotFoundException was not thrown');
+        $this->fail('Expected HTML_QuickForm2_Exception_NotFound was not thrown');
     }
 
     public function testGetElementsByName()

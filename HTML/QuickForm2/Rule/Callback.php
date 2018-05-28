@@ -147,7 +147,7 @@ class HTML_QuickForm2_Rule_Callback extends HTML_QuickForm2_Rule
             return $config['callback'][0] . '.' . $config['callback'][1];
         // lambda, closure, whatever: no sane way to translate
         } else {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 "Cannot generate Javascript callback name, please provide one"
             );
         }
@@ -225,7 +225,7 @@ class HTML_QuickForm2_Rule_Callback extends HTML_QuickForm2_Rule
     *                                                               for client-side validation])
     *
     * @return   HTML_QuickForm2_Rule
-    * @throws   HTML_QuickForm2_InvalidArgumentException if callback is missing or invalid
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument if callback is missing or invalid
     *               or additional arguments is not an array
     */
     public function setConfig($config)
@@ -234,13 +234,13 @@ class HTML_QuickForm2_Rule_Callback extends HTML_QuickForm2_Rule
             $config = array('callback' => $config);
         }
         if (!is_callable($config['callback'], false, $callbackName)) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'Callback Rule requires a valid callback, \'' . $callbackName .
                 '\' was given'
             );
         }
         if (array_key_exists('arguments', $config) && !is_array($config['arguments'])) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'Callback Rule expects additional callback arguments to be an array, ' .
                 preg_replace('/\s+/', ' ', var_export($config['arguments'], true)) . ' given'
             );

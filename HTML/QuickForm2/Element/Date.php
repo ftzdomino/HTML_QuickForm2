@@ -143,7 +143,7 @@ class HTML_QuickForm2_Element_Date extends HTML_QuickForm2_Container_Group
             if (!is_callable($data['messageProvider'])
                 && !$data['messageProvider'] instanceof HTML_QuickForm2_MessageProvider
             ) {
-                throw new HTML_QuickForm2_InvalidArgumentException(
+                throw new HTML_QuickForm2_Exception_InvalidArgument(
                     "messageProvider: expecting a callback or an implementation"
                     . " of HTML_QuickForm2_MessageProvider"
                 );

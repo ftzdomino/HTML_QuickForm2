@@ -93,12 +93,12 @@ class HTML_QuickForm2_Rule_Regex extends HTML_QuickForm2_Rule
     * @param string $config Regular expression
     *
     * @return   HTML_QuickForm2_Rule
-    * @throws   HTML_QuickForm2_InvalidArgumentException    if $config is not a string
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument    if $config is not a string
     */
     public function setConfig($config)
     {
         if (!is_string($config)) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'Regex Rule requires a regular expression, ' .
                 preg_replace('/\s+/', ' ', var_export($config, true)) . ' given'
             );

@@ -112,8 +112,8 @@ class HTML_QuickForm2_Rule_NonemptyTest extends PHPUnit_Framework_TestCase
                                  'getRawValue', 'setValue', '__toString'));
         try {
             $rule = new HTML_QuickForm2_Rule_Nonempty($mockEl, 'an error', -1);
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {}
     }
 
    /**

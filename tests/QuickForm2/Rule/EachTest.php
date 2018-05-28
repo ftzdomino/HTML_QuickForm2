@@ -57,14 +57,14 @@ class HTML_QuickForm2_Rule_EachTest extends PHPUnit_Framework_TestCase
         );
         try {
             $each = new HTML_QuickForm2_Rule_Each($mockEl);
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertContains('Each Rule requires a template Rule to validate with', $e->getMessage());
         }
         try {
             $each2 = new HTML_QuickForm2_Rule_Each($mockEl, '', 'A rule?');
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertContains('Each Rule requires a template Rule to validate with', $e->getMessage());
         }
     }
@@ -76,8 +76,8 @@ class HTML_QuickForm2_Rule_EachTest extends PHPUnit_Framework_TestCase
         );
         try {
             $each = new HTML_QuickForm2_Rule_Each($mockEl, 'an error', $mockEl->createRule('required', 'an error'));
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertContains('Cannot use "required" Rule as a template', $e->getMessage());
         }
     }
@@ -90,8 +90,8 @@ class HTML_QuickForm2_Rule_EachTest extends PHPUnit_Framework_TestCase
             $each = new HTML_QuickForm2_Rule_Each(
                 $mockEl, '', $mockEl->createRule('empty')
             );
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertContains('Each Rule can only validate Containers', $e->getMessage());
         }
     }

@@ -158,8 +158,8 @@ class HTML_QuickForm2_Factory
     * @param array        $data       Element-specific data (passed to element's constructor)
     *
     * @return   HTML_QuickForm2_Node     A created element
-    * @throws   HTML_QuickForm2_InvalidArgumentException If type name is unknown
-    * @throws   HTML_QuickForm2_NotFoundException If class for the element can
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument If type name is unknown
+    * @throws   HTML_QuickForm2_Exception_NotFound If class for the element can
     *           not be found and/or loaded from file
     */
     public static function createElement(
@@ -167,7 +167,7 @@ class HTML_QuickForm2_Factory
     ) {
         $type = strtolower($type);
         if (!isset(self::$elementTypes[$type])) {
-            throw new HTML_QuickForm2_InvalidArgumentException("Element type '$type' is not known");
+            throw new HTML_QuickForm2_Exception_InvalidArgument("Element type '$type' is not known");
         }
         list($className, $includeFile) = self::$elementTypes[$type];
         HTML_QuickForm2_Loader::loadClass($className, $includeFile);
@@ -213,8 +213,8 @@ class HTML_QuickForm2_Factory
     * @param mixed                $config  Configuration data for the rule
     *
     * @return   HTML_QuickForm2_Rule    A created Rule
-    * @throws   HTML_QuickForm2_InvalidArgumentException If rule type is unknown
-    * @throws   HTML_QuickForm2_NotFoundException        If class for the rule
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument If rule type is unknown
+    * @throws   HTML_QuickForm2_Exception_NotFound        If class for the rule
     *           can't be found and/or loaded from file
     */
     public static function createRule(
@@ -222,7 +222,7 @@ class HTML_QuickForm2_Factory
     ) {
         $type = strtolower($type);
         if (!isset(self::$registeredRules[$type])) {
-            throw new HTML_QuickForm2_InvalidArgumentException("Rule '$type' is not known");
+            throw new HTML_QuickForm2_Exception_InvalidArgument("Rule '$type' is not known");
         }
         list($className, $includeFile) = self::$registeredRules[$type];
         HTML_QuickForm2_Loader::loadClass($className, $includeFile);

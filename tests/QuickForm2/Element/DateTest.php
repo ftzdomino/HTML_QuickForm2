@@ -48,7 +48,7 @@ require_once dirname(dirname(dirname(__FILE__))) . '/TestHelper.php';
 class HTML_QuickForm2_Element_DateTest extends PHPUnit_Framework_TestCase
 {
    /**
-    * @expectedException HTML_QuickForm2_InvalidArgumentException
+    * @expectedException HTML_QuickForm2_Exception_InvalidArgument
     */
     public function testInvalidMessageProvider()
     {

@@ -65,7 +65,7 @@ class HTML_QuickForm2_Loader
     * @param string $className   Class name to load
     * @param string $includeFile Name of the file (supposedly) containing the given class
     *
-    * @throws   HTML_QuickForm2_NotFoundException   If the file either can't be
+    * @throws   HTML_QuickForm2_Exception_NotFound   If the file either can't be
     *               loaded or doesn't contain the given class
     */
     public static function loadClass($className, $includeFile = null)
@@ -81,11 +81,11 @@ class HTML_QuickForm2_Loader
         // Still no class?
         if (!class_exists($className, true) && !interface_exists($className, true)) {
             if (!self::fileExists($includeFile)) {
-                throw new HTML_QuickForm2_NotFoundException(
+                throw new HTML_QuickForm2_Exception_NotFound(
                     "File '$includeFile' was not found"
                 );
             } else {
-                throw new HTML_QuickForm2_NotFoundException(
+                throw new HTML_QuickForm2_Exception_NotFound(
                     "Class '$className' was not found within file '$includeFile'"
                 );
             }

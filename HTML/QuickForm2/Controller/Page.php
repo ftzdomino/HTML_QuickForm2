@@ -149,7 +149,7 @@ abstract class HTML_QuickForm2_Controller_Page
     * @param string $actionName Name of the action
     *
     * @return   mixed Return value of action handler
-    * @throws   HTML_QuickForm2_NotFoundException   if handler for an action is missing
+    * @throws   HTML_QuickForm2_Exception_NotFound   if handler for an action is missing
     */
     public function handle($actionName)
     {

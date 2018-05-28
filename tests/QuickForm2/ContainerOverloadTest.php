@@ -77,11 +77,11 @@ class HTML_QuickForm2_ContainerOverloadTest extends PHPUnit_Framework_TestCase
         $c = new HTML_QuickForm2_ContainerImpl('cCOT2');
         try {
             $c->addUnknown('uCOT1');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertEquals("Element type 'unknown' is not known", $e->getMessage());
             return;
         }
-        $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
+        $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
     }
 
 
@@ -100,11 +100,11 @@ class HTML_QuickForm2_ContainerOverloadTest extends PHPUnit_Framework_TestCase
 
         try {
             $c->addSuper_Select('sSel_1');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {
             $this->assertEquals("Element type 'super_select' is not known", $e->getMessage());
             return;
         }
-        $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
+        $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
     }
 
 }

@@ -105,8 +105,8 @@ class HTML_QuickForm2_Element_StaticTest extends PHPUnit_Framework_TestCase
                 'HTML_QuickForm2_Rule', array('validateOwner'),
                 array($static, 'a message')
             );
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) { }
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) { }
     }
 
     public function testCanRemoveName()
@@ -137,7 +137,7 @@ class HTML_QuickForm2_Element_StaticTest extends PHPUnit_Framework_TestCase
     }
 
    /**
-    * @expectedException HTML_QuickForm2_InvalidArgumentException
+    * @expectedException HTML_QuickForm2_Exception_InvalidArgument
     */
     public function testDisallowedTagNames()
     {

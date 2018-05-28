@@ -125,15 +125,15 @@ abstract class HTML_QuickForm2_Renderer
     *
     * @return   HTML_QuickForm2_Renderer_Proxy  A renderer instance of the given
     *                   type wrapped by a Proxy
-    * @throws   HTML_QuickForm2_InvalidArgumentException If type name is unknown
-    * @throws   HTML_QuickForm2_NotFoundException If class for the renderer can
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument If type name is unknown
+    * @throws   HTML_QuickForm2_Exception_NotFound If class for the renderer can
     *           not be found and/or loaded from file
     */
     final public static function factory($type)
     {
         $type = strtolower($type);
         if (!isset(self::$_types[$type])) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 "Renderer type '$type' is not known"
             );
         }
@@ -152,7 +152,7 @@ abstract class HTML_QuickForm2_Renderer
     * @param string $includeFile File containing the class, leave empty
     *                            if class already loaded
     *
-    * @throws   HTML_QuickForm2_InvalidArgumentException if type already registered
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument if type already registered
     */
     final public static function register($type, $className, $includeFile = null)
     {
@@ -170,7 +170,7 @@ abstract class HTML_QuickForm2_Renderer
     * @param string $className   Plugin class name
     * @param string $includeFile File containing the plugin class, leave empty if class already loaded
     *
-    * @throws   HTML_QuickForm2_InvalidArgumentException if plugin is already registered
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument if plugin is already registered
     */
     final public static function registerPlugin($type, $className, $includeFile = null)
     {
@@ -182,7 +182,7 @@ abstract class HTML_QuickForm2_Renderer
         } else {
             foreach (self::$_pluginClasses[$type] as $plugin) {
                 if (0 == strcasecmp($plugin[0], $className)) {
-                    throw new HTML_QuickForm2_InvalidArgumentException(
+                    throw new HTML_QuickForm2_Exception_InvalidArgument(
                         "Plugin '$className' for renderer type '$type' is already registered"
                     );
                 }
@@ -249,7 +249,7 @@ abstract class HTML_QuickForm2_Renderer
     * @param mixed        $value         parameter value if $nameOrConfig is not an array
     *
     * @return   HTML_QuickForm2_Renderer
-    * @throws   HTML_QuickForm2_NotFoundException in case of unknown option
+    * @throws   HTML_QuickForm2_Exception_NotFound in case of unknown option
     */
     public function setOption($nameOrOptions, $value = null)
     {
@@ -260,7 +260,7 @@ abstract class HTML_QuickForm2_Renderer
 
         } else {
             if (!array_key_exists($nameOrOptions, $this->options)) {
-                throw new HTML_QuickForm2_NotFoundException(
+                throw new HTML_QuickForm2_Exception_NotFound(
                     "Unknown option '{$nameOrOptions}'"
                 );
             }
@@ -277,14 +277,14 @@ abstract class HTML_QuickForm2_Renderer
     *
     * @return   mixed   value of $name parameter, array of all configuration
     *                   parameters if $name is not given
-    * @throws   HTML_QuickForm2_NotFoundException in case of unknown option
+    * @throws   HTML_QuickForm2_Exception_NotFound in case of unknown option
     */
     public function getOption($name = null)
     {
         if (null === $name) {
             return $this->options;
         } elseif (!array_key_exists($name, $this->options)) {
-            throw new HTML_QuickForm2_NotFoundException(
+            throw new HTML_QuickForm2_Exception_NotFound(
                 "Unknown option '{$name}'"
             );
         }

@@ -51,7 +51,7 @@
  * try {
  *     HTML_QuickForm2_Factory::registerElement('missing', 'NonExistent');
  *     $el = HTML_QuickForm2_Factory::createElement('missing');
- * } catch (HTML_QuickForm2_NotFoundException $e) {
+ * } catch (HTML_QuickForm2_Exception_NotFound $e) {
  *     echo $e->getMessage();
  * }
  * </code>
@@ -65,6 +65,6 @@
  * @version  Release: @package_version@
  * @link     http://pear.php.net/package/HTML_QuickForm2
  */
-class HTML_QuickForm2_NotFoundException extends HTML_QuickForm2_Exception
+class HTML_QuickForm2_Exception_NotFound extends HTML_QuickForm2_Exception
 {
 }

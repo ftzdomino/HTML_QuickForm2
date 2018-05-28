@@ -97,7 +97,7 @@ class HTML_QuickForm2_Element_InputFile extends HTML_QuickForm2_Element_Input
             if (!is_callable($data['messageProvider'])
                 && !$data['messageProvider'] instanceof HTML_QuickForm2_MessageProvider
             ) {
-                throw new HTML_QuickForm2_InvalidArgumentException(
+                throw new HTML_QuickForm2_Exception_InvalidArgument(
                     "messageProvider: expecting a callback or an implementation"
                     . " of HTML_QuickForm2_MessageProvider"
                 );
@@ -175,7 +175,7 @@ class HTML_QuickForm2_Element_InputFile extends HTML_QuickForm2_Element_Input
         while (!empty($container)) {
             if ($container instanceof HTML_QuickForm2) {
                 if ('get' == $container->getAttribute('method')) {
-                    throw new HTML_QuickForm2_InvalidArgumentException(
+                    throw new HTML_QuickForm2_Exception_InvalidArgument(
                         'File upload elements can only be added to forms with post submit method'
                     );
                 }

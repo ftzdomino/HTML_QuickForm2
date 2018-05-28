@@ -62,14 +62,14 @@ class HTML_QuickForm2_ControllerTest extends PHPUnit_Framework_TestCase
     {
         try {
             $controller = new HTML_QuickForm2_Controller();
-            $this->fail('Expected HTML_QuickForm2_NotFoundException was not thrown');
-        } catch (HTML_QuickForm2_NotFoundException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_NotFound was not thrown');
+        } catch (HTML_QuickForm2_Exception_NotFound $e) {}
 
         $_REQUEST[HTML_QuickForm2_Controller::KEY_ID] = 'foo';
         try {
             $controller = new HTML_QuickForm2_Controller();
-            $this->fail('Expected HTML_QuickForm2_NotFoundException was not thrown');
-        } catch (HTML_QuickForm2_NotFoundException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_NotFound was not thrown');
+        } catch (HTML_QuickForm2_Exception_NotFound $e) {}
 
         $_SESSION[sprintf(HTML_QuickForm2_Controller::KEY_CONTAINER, 'foo')] = array(
             'datasources' => array(),
@@ -104,8 +104,8 @@ class HTML_QuickForm2_ControllerTest extends PHPUnit_Framework_TestCase
 
         try {
             $page = $controller->getPage('firstPage');
-            $this->fail('Expected HTML_QuickForm2_NotFoundException was not thrown');
-        } catch (HTML_QuickForm2_NotFoundException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_NotFound was not thrown');
+        } catch (HTML_QuickForm2_Exception_NotFound $e) {}
 
         $controller->addPage($firstPage);
         $this->assertSame($firstPage, $controller->getPage('firstPage'));
@@ -116,8 +116,8 @@ class HTML_QuickForm2_ControllerTest extends PHPUnit_Framework_TestCase
                 'HTML_QuickForm2_Controller_Page', array('populateForm'),
                 array(new HTML_QuickForm2('firstPage'))
             ));
-            $this->fail('Expected HTML_QuickForm2_InvalidArgumentException was not thrown');
-        } catch (HTML_QuickForm2_InvalidArgumentException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_InvalidArgument was not thrown');
+        } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {}
     }
 
     public function testDefaultActionName()
@@ -126,8 +126,8 @@ class HTML_QuickForm2_ControllerTest extends PHPUnit_Framework_TestCase
 
         try {
             $actionName = $controller->getActionName();
-            $this->fail('Expected HTML_QuickForm2_NotFoundException was not thrown');
-        } catch(HTML_QuickForm2_NotFoundException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_NotFound was not thrown');
+        } catch(HTML_QuickForm2_Exception_NotFound $e) {}
 
         $controller->addPage($this->getMock(
             'HTML_QuickForm2_Controller_Page', array('populateForm'),

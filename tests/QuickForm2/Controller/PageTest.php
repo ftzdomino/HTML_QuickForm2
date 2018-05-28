@@ -73,8 +73,8 @@ class HTML_QuickForm2_Controller_PageTest extends PHPUnit_Framework_TestCase
 
         try {
             $mockPage->handle('foo');
-            $this->fail('Expected HTML_QuickForm2_NotFoundException was not thrown');
-        } catch (HTML_QuickForm2_NotFoundException $e) {}
+            $this->fail('Expected HTML_QuickForm2_Exception_NotFound was not thrown');
+        } catch (HTML_QuickForm2_Exception_NotFound $e) {}
 
         $mockFoo1 = $this->getMock(
             'HTML_QuickForm2_Controller_Action', array('perform')

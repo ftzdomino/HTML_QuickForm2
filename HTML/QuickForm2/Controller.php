@@ -148,7 +148,7 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
     * @param boolean $propagateId Whether form's ID should be sent with
     *                             GET and POST parameters
     *
-    * @throws   HTML_QuickForm2_NotFoundException   if ID is not given and cannot
+    * @throws   HTML_QuickForm2_Exception_NotFound   if ID is not given and cannot
     *               be found in $_REQUEST, or session container is empty
     */
     public function __construct($id = null, $wizard = true, $propagateId = false)
@@ -158,7 +158,7 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
             $id          = self::findControllerID();
         }
         if (empty($id)) {
-            throw new HTML_QuickForm2_NotFoundException(
+            throw new HTML_QuickForm2_Exception_NotFound(
                 'Controller ID not available in $_REQUEST or session ' .
                 'container is empty, please provide ID to constructor'
             );
@@ -231,7 +231,7 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
             return $this->actionName;
         }
         if (empty($this->pages)) {
-            throw new HTML_QuickForm2_NotFoundException('No pages added to the form');
+            throw new HTML_QuickForm2_Exception_NotFound('No pages added to the form');
         }
         $names = array_map('preg_quote', array_keys($this->pages));
         $regex = '/^_qf_(' . implode('|', $names) . ')_(.+?)(_x)?$/';
@@ -285,7 +285,7 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
     * @param string                          $actionName action name
     *
     * @return mixed Return value of action handler
-    * @throws HTML_QuickForm2_NotFoundException   if handler for an action is missing
+    * @throws HTML_QuickForm2_Exception_NotFound   if handler for an action is missing
     */
     public function handle(HTML_QuickForm2_Controller_Page $page, $actionName)
     {
@@ -299,7 +299,7 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
         if (isset($this->handlers[$actionName])) {
             return $this->handlers[$actionName]->perform($page, $actionName);
         } else {
-            throw new HTML_QuickForm2_NotFoundException(
+            throw new HTML_QuickForm2_Exception_NotFound(
                 "Unhandled action '{$actionName}' for page '{$page->getForm()->getId()}'"
             );
         }
@@ -314,7 +314,7 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
     {
         $pageId = $page->getForm()->getId();
         if (!empty($this->pages[$pageId])) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 "Duplicate page ID '{$pageId}'"
             );
         }
@@ -328,7 +328,7 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
     * @param string $pageId Page ID
     *
     * @return HTML_QuickForm2_Controller_Page
-    * @throws HTML_QuickForm2_NotFoundException if there is no page with
+    * @throws HTML_QuickForm2_Exception_NotFound if there is no page with
     *           the given ID
     */
     public function getPage($pageId)
@@ -336,7 +336,7 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
         if (!empty($this->pages[$pageId])) {
             return $this->pages[$pageId];
         } else {
-            throw new HTML_QuickForm2_NotFoundException(
+            throw new HTML_QuickForm2_Exception_NotFound(
                 "Unknown page '{$pageId}'"
             );
         }

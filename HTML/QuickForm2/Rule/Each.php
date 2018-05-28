@@ -84,7 +84,7 @@ class HTML_QuickForm2_Rule_Each extends HTML_QuickForm2_Rule
                 if (!$rule->validateOwner()) {
                     return false;
                 }
-            } catch (HTML_QuickForm2_InvalidArgumentException $e) {}
+            } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {}
         }
         return true;
     }
@@ -102,7 +102,7 @@ class HTML_QuickForm2_Rule_Each extends HTML_QuickForm2_Rule
             try {
                 $rule->setOwner($child);
                 $callbacks[] = $rule->getJavascriptCallback();
-            } catch (HTML_QuickForm2_InvalidArgumentException $e) {}
+            } catch (HTML_QuickForm2_Exception_InvalidArgument $e) {}
         }
         return "function () { return qf.rules.each([\n\t\t" . implode(",\n\t\t", $callbacks) . "\n\t]); }";
     }
@@ -116,18 +116,18 @@ class HTML_QuickForm2_Rule_Each extends HTML_QuickForm2_Rule
     * @param HTML_QuickForm2_Rule $config Template Rule
     *
     * @return   HTML_QuickForm2_Rule
-    * @throws   HTML_QuickForm2_InvalidArgumentException if $config is either not
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument if $config is either not
     *               an instance of Rule or is an instance of Rule_Required
     */
     public function setConfig($config)
     {
         if (!$config instanceof HTML_QuickForm2_Rule) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'Each Rule requires a template Rule to validate with, ' .
                 preg_replace('/\s+/', ' ', var_export($config, true)) . ' given'
             );
         } elseif ($config instanceof HTML_QuickForm2_Rule_Required) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'Cannot use "required" Rule as a template'
             );
         }
@@ -139,13 +139,13 @@ class HTML_QuickForm2_Rule_Each extends HTML_QuickForm2_Rule
     *
     * @param HTML_QuickForm2_Node $owner Container to validate
     *
-    * @throws   HTML_QuickForm2_InvalidArgumentException    if trying to use
+    * @throws   HTML_QuickForm2_Exception_InvalidArgument    if trying to use
     *           this Rule on something that isn't a Container
     */
     public function setOwner(HTML_QuickForm2_Node $owner)
     {
         if (!$owner instanceof HTML_QuickForm2_Container) {
-            throw new HTML_QuickForm2_InvalidArgumentException(
+            throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'Each Rule can only validate Containers, '.
                 get_class($owner) . ' given'
             );
