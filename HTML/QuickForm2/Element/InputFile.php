@@ -4,44 +4,25 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
+
+// pear-package-only /**
+// pear-package-only  * Base class for <input> elements
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Element/Input.php';
 
 /**
  * Class for <input type="file" /> elements
@@ -50,9 +31,9 @@
  * @package  HTML_QuickForm2
  * @author   Alexey Borzov <avb@php.net>
  * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 class HTML_QuickForm2_Element_InputFile extends HTML_QuickForm2_Element_Input
 {
@@ -68,7 +49,7 @@ class HTML_QuickForm2_Element_InputFile extends HTML_QuickForm2_Element_Input
     */
     protected $value = null;
 
-    protected $attributes = array('type' => 'file');
+    protected $attributes = ['type' => 'file'];
 
    /**
     * Message provider for upload error messages
@@ -91,7 +72,7 @@ class HTML_QuickForm2_Element_InputFile extends HTML_QuickForm2_Element_Input
     * @param array        $data       Data used to set up error messages for PHP's
     *                                 file upload errors.
     */
-    public function __construct($name = null, $attributes = null, array $data = array())
+    public function __construct($name = null, $attributes = null, array $data = [])
     {
         if (isset($data['messageProvider'])) {
             if (!is_callable($data['messageProvider'])
@@ -105,7 +86,7 @@ class HTML_QuickForm2_Element_InputFile extends HTML_QuickForm2_Element_Input
             $this->messageProvider = $data['messageProvider'];
 
         } else {
-            HTML_QuickForm2_Loader::loadClass('HTML_QuickForm2_MessageProvider_Default');
+            // pear-package-only HTML_QuickForm2_Loader::loadClass('HTML_QuickForm2_MessageProvider_Default');
             $this->messageProvider = HTML_QuickForm2_MessageProvider_Default::getInstance();
         }
         if (isset($data['language'])) {
@@ -158,7 +139,7 @@ class HTML_QuickForm2_Element_InputFile extends HTML_QuickForm2_Element_Input
     *
     * @param mixed $value Value for file element, this parameter is ignored
     *
-    * @return    HTML_QuickForm2_Element_InputFile
+    * @return $this
     */
     public function setValue($value)
     {
@@ -215,11 +196,11 @@ class HTML_QuickForm2_Element_InputFile extends HTML_QuickForm2_Element_Input
             return false;
         }
         if (isset($this->value['error'])
-            && !in_array($this->value['error'], array(UPLOAD_ERR_OK, UPLOAD_ERR_NO_FILE))
+            && !in_array($this->value['error'], [UPLOAD_ERR_OK, UPLOAD_ERR_NO_FILE])
         ) {
             $errorMessage = $this->messageProvider instanceof HTML_QuickForm2_MessageProvider
-                            ? $this->messageProvider->get(array('file', $this->value['error']), $this->language)
-                            : call_user_func($this->messageProvider, array('file', $this->value['error']), $this->language);
+                            ? $this->messageProvider->get(['file', $this->value['error']], $this->language)
+                            : call_user_func($this->messageProvider, ['file', $this->value['error']], $this->language);
             if (UPLOAD_ERR_INI_SIZE == $this->value['error']) {
                 $iniSize = ini_get('upload_max_filesize');
                 $size    = intval($iniSize);
@@ -243,14 +224,14 @@ class HTML_QuickForm2_Element_InputFile extends HTML_QuickForm2_Element_Input
         return parent::validate();
     }
 
-    public function addFilter($callback, array $options = array())
+    public function addFilter($callback, array $options = [])
     {
         throw new HTML_QuickForm2_Exception(
             'InputFile elements do not support filters'
         );
     }
 
-    public function addRecursiveFilter($callback, array $options = array())
+    public function addRecursiveFilter($callback, array $options = [])
     {
         throw new HTML_QuickForm2_Exception(
             'InputFile elements do not support filters'

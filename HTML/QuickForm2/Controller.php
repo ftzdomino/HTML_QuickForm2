@@ -4,44 +4,29 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
+
+// pear-package-only /** The class representing a page of a multipage form */
+// pear-package-only require_once 'HTML/QuickForm2/Controller/Page.php';
+
+// pear-package-only /** Object wrapping around session variable used to store controller data */
+// pear-package-only require_once 'HTML/QuickForm2/Controller/SessionContainer.php';
+
+// pear-package-only /** Class presenting the values stored in session by Controller as submitted ones */
+// pear-package-only require_once 'HTML/QuickForm2/DataSource/Session.php';
 
 /**
  * Class implementing the Page Controller pattern for multipage forms
@@ -54,9 +39,9 @@
  * @package  HTML_QuickForm2
  * @author   Alexey Borzov <avb@php.net>
  * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 class HTML_QuickForm2_Controller implements IteratorAggregate
 {
@@ -92,13 +77,13 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
     * Contains the pages (instances of HTML_QuickForm2_Controller_Page) of the multipage form
     * @var array
     */
-    protected $pages = array();
+    protected $pages = [];
 
    /**
     * Contains the mapping of action names to handlers (objects implementing HTML_QuickForm2_Controller_Action)
     * @var array
     */
-    protected $handlers = array();
+    protected $handlers = [];
 
    /**
     * The action extracted from HTTP request: array('page', 'action')
@@ -237,13 +222,13 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
         $regex = '/^_qf_(' . implode('|', $names) . ')_(.+?)(_x)?$/';
         foreach (array_keys($_REQUEST) as $key) {
             if (preg_match($regex, $key, $matches)) {
-                $this->actionName = array($matches[1], $matches[2]);
+                $this->actionName = [$matches[1], $matches[2]];
                 break;
             }
         }
         if (!is_array($this->actionName)) {
             reset($this->pages);
-            $this->actionName = array(key($this->pages), 'display');
+            $this->actionName = [key($this->pages), 'display'];
         }
         return $this->actionName;
     }
@@ -290,10 +275,10 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
     public function handle(HTML_QuickForm2_Controller_Page $page, $actionName)
     {
         if (!isset($this->handlers[$actionName])
-            && in_array($actionName, array('next', 'back', 'submit', 'display', 'jump'))
+            && in_array($actionName, ['next', 'back', 'submit', 'display', 'jump'])
         ) {
             $className = 'HTML_QuickForm2_Controller_Action_' . ucfirst($actionName);
-            HTML_QuickForm2_Loader::loadClass($className);
+            // pear-package-only HTML_QuickForm2_Loader::loadClass($className);
             $this->addHandler($actionName, new $className());
         }
         if (isset($this->handlers[$actionName])) {
@@ -404,7 +389,7 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
                     // Empty Session datasource makes the form look submitted
                     $page->getForm()->setDatasources(array_merge(
                         $container->getDatasources(),
-                        array(new HTML_QuickForm2_DataSource_Session(array()))
+                        [new HTML_QuickForm2_DataSource_Session([])]
                     ));
                     // This will store the "submitted" values in session and
                     // return validation status
@@ -445,7 +430,7 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
     {
         $this->getSessionContainer()->storeDatasources(
             array_merge(
-                $this->getSessionContainer()->getDatasources(), array($datasource)
+                $this->getSessionContainer()->getDatasources(), [$datasource]
             )
         );
     }
@@ -457,7 +442,7 @@ class HTML_QuickForm2_Controller implements IteratorAggregate
     */
     public function getValue()
     {
-        $values = array();
+        $values = [];
         foreach (array_keys($this->pages) as $id) {
             $values = HTML_QuickForm2_Container::arrayMerge(
                 $values, $this->getSessionContainer()->getValues($id)

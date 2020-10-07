@@ -4,44 +4,25 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
+
+// pear-package-only /**
+// pear-package-only  * Base class for HTML_QuickForm2 rules
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Rule.php';
 
 /**
  * Rule comparing the value of the field with some other value
@@ -69,9 +50,9 @@
  * @package  HTML_QuickForm2
  * @author   Alexey Borzov <avb@php.net>
  * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 class HTML_QuickForm2_Rule_Compare extends HTML_QuickForm2_Rule
 {
@@ -79,7 +60,7 @@ class HTML_QuickForm2_Rule_Compare extends HTML_QuickForm2_Rule
     * Possible comparison operators
     * @var array
     */
-    protected $operators = array('==', '!=', '===', '!==', '<', '<=', '>', '>=');
+    protected $operators = ['==', '!=', '===', '!==', '<', '<=', '>', '>='];
 
 
    /**
@@ -89,24 +70,25 @@ class HTML_QuickForm2_Rule_Compare extends HTML_QuickForm2_Rule
     */
     protected function validateOwner()
     {
-        $value  = $this->owner->getValue();
-        $config = $this->getConfig();
-        if (!in_array($config['operator'], array('===', '!=='))) {
-            $compareFn = create_function(
-                '$a, $b', 'return floatval($a) ' . $config['operator'] . ' floatval($b);'
-            );
-        } else {
-            $compareFn = create_function(
-                '$a, $b', 'return strval($a) ' . $config['operator'] . ' strval($b);'
-            );
+        $value   = $this->owner->getValue();
+        $config  = $this->getConfig();
+        $operand = $config['operand'] instanceof HTML_QuickForm2_Node
+                   ? $config['operand']->getValue(): $config['operand'];
+
+        switch ($config['operator']) {
+        case '===': return strval($value) === strval($operand);
+        case '!==': return strval($value) !== strval($operand);
+        case '>':   return floatval($value) > floatval($operand);
+        case '>=':  return floatval($value) >= floatval($operand);
+        case '<':   return floatval($value) < floatval($operand);
+        case '<=':  return floatval($value) <= floatval($operand);
+        default:    return false;
         }
-        return $compareFn($value, $config['operand'] instanceof HTML_QuickForm2_Node
-                                  ? $config['operand']->getValue(): $config['operand']);
     }
 
     protected function getJavascriptCallback()
     {
-        HTML_QuickForm2_Loader::loadClass('HTML_QuickForm2_JavascriptBuilder');
+        // pear-package-only HTML_QuickForm2_Loader::loadClass('HTML_QuickForm2_JavascriptBuilder');
 
         $config   = $this->getConfig();
         $operand1 = $this->owner->getJavascriptValue();
@@ -114,7 +96,7 @@ class HTML_QuickForm2_Rule_Compare extends HTML_QuickForm2_Rule
                     ? $config['operand']->getJavascriptValue()
                     : HTML_QuickForm2_JavascriptBuilder::encode($config['operand']);
 
-        if (!in_array($config['operator'], array('===', '!=='))) {
+        if (!in_array($config['operator'], ['===', '!=='])) {
             $check = "Number({$operand1}) {$config['operator']} Number({$operand2})";
         } else {
             $check = "String({$operand1}) {$config['operator']} String({$operand2})";
@@ -159,11 +141,11 @@ class HTML_QuickForm2_Rule_Compare extends HTML_QuickForm2_Rule
     public static function mergeConfig($localConfig, $globalConfig)
     {
         $config = null;
-        if (0 < count($globalConfig)) {
+        if (null !== $globalConfig && [] !== $globalConfig) {
             $config = self::toCanonicalForm($globalConfig, 'operator');
         }
-        if (0 < count($localConfig)) {
-            $config = (isset($config)? $config: array())
+        if (null !== $localConfig && [] !== $localConfig) {
+            $config = (isset($config)? $config: [])
                       + self::toCanonicalForm($localConfig);
         }
         return $config;
@@ -180,7 +162,7 @@ class HTML_QuickForm2_Rule_Compare extends HTML_QuickForm2_Rule
     protected static function toCanonicalForm($config, $key = 'operand')
     {
         if (!is_array($config)) {
-            return array($key => $config);
+            return [$key => $config];
 
         } elseif (array_key_exists('operator', $config)
                   || array_key_exists('operand', $config)
@@ -188,10 +170,10 @@ class HTML_QuickForm2_Rule_Compare extends HTML_QuickForm2_Rule
             return $config;
 
         } elseif (1 == count($config)) {
-            return array($key => end($config));
+            return [$key => end($config)];
 
         } else {
-            return array('operator' => reset($config), 'operand' => end($config));
+            return ['operator' => reset($config), 'operand' => end($config)];
         }
     }
 
@@ -212,21 +194,21 @@ class HTML_QuickForm2_Rule_Compare extends HTML_QuickForm2_Rule
     */
     public function setConfig($config)
     {
-        if (0 == count($config)) {
+        if (null === $config || [] === $config) {
             throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'Compare Rule requires an argument to compare with'
             );
         }
         $config = self::toCanonicalForm($config);
 
-        $config += array('operator' => '===');
+        $config += ['operator' => '==='];
         if (!in_array($config['operator'], $this->operators)) {
             throw new HTML_QuickForm2_Exception_InvalidArgument(
                 'Compare Rule requires a valid comparison operator, ' .
                 preg_replace('/\s+/', ' ', var_export($config['operator'], true)) . ' given'
             );
         }
-        if (in_array($config['operator'], array('==', '!='))) {
+        if (in_array($config['operator'], ['==', '!='])) {
             $config['operator'] .= '=';
         }
 

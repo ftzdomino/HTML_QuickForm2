@@ -14,7 +14,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "HTML": "./"
+            "HTML_QuickForm2": ""
         }
     },
     "description": "Provides methods to create, validate and render HTML forms in PHP.",
@@ -36,7 +36,7 @@
     "repositories": [
         {
             "type": "git",
-			"url": "https://github.com/golgote/HTML_Common2.git"
+            "url": "https://github.com/golgote/HTML_Common2.git"
         }
-       ]
+    ]
 }

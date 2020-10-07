@@ -4,44 +4,25 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
+
+// pear-package-only /**
+// pear-package-only  * HTML_Common2 - base class for HTML elements
+// pear-package-only  */
+// pear-package-only require_once 'HTML/Common2.php';
 
 // By default, we generate element IDs with numeric indexes appended even for
 // elements with unique names. If you want IDs to be equal to the element
@@ -55,6 +36,22 @@ if (null === HTML_Common2::getOption('language')) {
     HTML_Common2::setOption('language', 'en');
 }
 
+// pear-package-only /**
+// pear-package-only  * Exception classes for HTML_QuickForm2
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Exception.php';
+
+// pear-package-only /**
+// pear-package-only  * Static factory class for QuickForm2 elements
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Factory.php';
+
+// pear-package-only /**
+// pear-package-only  * Base class for HTML_QuickForm2 rules
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Rule.php';
+
+
 /**
  * Abstract base class for all QuickForm2 Elements and Containers
  *
@@ -66,9 +63,9 @@ if (null === HTML_Common2::getOption('language')) {
  * @package  HTML_QuickForm2
  * @author   Alexey Borzov <avb@php.net>
  * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 abstract class HTML_QuickForm2_Node extends HTML_Common2
 {
@@ -76,7 +73,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
     * Array containing the parts of element ids
     * @var array
     */
-    protected static $ids = array();
+    protected static $ids = [];
 
    /**
     * Element's "frozen" status
@@ -100,19 +97,19 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
     * Contains options and data used for the element creation
     * @var  array
     */
-    protected $data = array();
+    protected $data = [];
 
    /**
     * Validation rules for element
     * @var  array
     */
-    protected $rules = array();
+    protected $rules = [];
 
    /**
     * An array of callback filters for element
     * @var  array
     */
-    protected $filters = array();
+    protected $filters = [];
 
    /**
     * Recursive filter callbacks for element
@@ -122,7 +119,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
     *
     * @var  array
     */
-    protected $recursiveFilters = array();
+    protected $recursiveFilters = [];
 
    /**
     * Error message (usually set via Rule if validation fails)
@@ -134,7 +131,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
     * Changing 'name' and 'id' attributes requires some special handling
     * @var array
     */
-    protected $watchedAttributes = array('id', 'name');
+    protected $watchedAttributes = ['id', 'name'];
 
    /**
     * Intercepts setting 'name' and 'id' attributes
@@ -177,7 +174,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
     * @param string|array $attributes HTML attributes (either a string or an array)
     * @param array        $data       Element data (label, options used for element setup)
     */
-    public function __construct($name = null, $attributes = null, array $data = array())
+    public function __construct($name = null, $attributes = null, array $data = [])
     {
         parent::__construct($attributes);
         $this->setName($name);
@@ -205,7 +202,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
         $stop      =  !self::getOption('id_force_append_index');
         $tokens    =  strlen($elementName)
                       ? explode('[', str_replace(']', '', $elementName))
-                      : ($stop? array('qfauto', ''): array('qfauto'));
+                      : ($stop? ['qfauto', ''] : ['qfauto']);
         $container =& self::$ids;
         $id        =  '';
 
@@ -229,7 +226,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
             }
             $id .= '-' . $token;
             if (!isset($container[$token])) {
-                $container[$token] = array();
+                $container[$token] = [];
             // Handle duplicate names when not having mandatory indexes
             } elseif (empty($tokens) && $stop) {
                 $tokens[] = '';
@@ -259,7 +256,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
         do {
             $token = array_shift($tokens);
             if (!isset($container[$token])) {
-                $container[$token] = array();
+                $container[$token] = [];
             }
             $container =& $container[$token];
         } while (!empty($tokens));
@@ -301,7 +298,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
     *
     * @param string $name
     *
-    * @return   HTML_QuickForm2_Node
+    * @return $this
     */
     abstract public function setName($name);
 
@@ -326,7 +323,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
     *
     * @param string $id Element's id, will be autogenerated if not given
     *
-    * @return   HTML_QuickForm2_Node
+    * @return   $this
     * @throws   HTML_QuickForm2_Exception_InvalidArgument if id contains invalid
     *           characters (i.e. spaces)
     */
@@ -371,7 +368,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
     *
     * @param mixed $value
     *
-    * @return   HTML_QuickForm2_Node
+    * @return $this
     */
     abstract public function setValue($value);
 
@@ -395,7 +392,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
     *
     * @param string|array $label Label for the element (may be an array of labels)
     *
-    * @return   HTML_QuickForm2_Node
+    * @return $this
     */
     public function setLabel($label)
     {
@@ -495,7 +492,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
     protected function getDataSources()
     {
         if (empty($this->container)) {
-            return array();
+            return [];
         } else {
             return $this->container->getDataSources();
         }
@@ -540,7 +537,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
             );
         }
 
-        $this->rules[] = array($rule, $runAt);
+        $this->rules[] = [$rule, $runAt];
         return $rule;
     }
 
@@ -647,7 +644,7 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
     *
     * @param string $error
     *
-    * @return   HTML_QuickForm2_Node
+    * @return $this
     */
     public function setError($error = null)
     {
@@ -696,17 +693,17 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
      *                       will always be the element value, then these options will
      *                       be used as parameters for the callback.
      *
-     * @return   HTML_QuickForm2_Node    The element
+     * @return   $this    The element
      * @throws   HTML_QuickForm2_Exception_InvalidArgument    If callback is incorrect
      */
-    public function addFilter($callback, array $options = array())
+    public function addFilter($callback, array $options = [])
     {
         if (!is_callable($callback, false, $callbackName)) {
             throw new HTML_QuickForm2_Exception_InvalidArgument(
                 "Filter should be a valid callback, '{$callbackName}' was given"
             );
         }
-        $this->filters[] = array($callback, $options);
+        $this->filters[] = [$callback, $options];
         return $this;
     }
 
@@ -727,17 +724,17 @@ abstract class HTML_QuickForm2_Node extends HTML_Common2
      *                       will always be the element value, then these options will
      *                       be used as parameters for the callback.
      *
-     * @return   HTML_QuickForm2_Node    The element
+     * @return   $this    The element
      * @throws   HTML_QuickForm2_Exception_InvalidArgument    If callback is incorrect
      */
-    public function addRecursiveFilter($callback, array $options = array())
+    public function addRecursiveFilter($callback, array $options = [])
     {
         if (!is_callable($callback, false, $callbackName)) {
             throw new HTML_QuickForm2_Exception_InvalidArgument(
                 "Filter should be a valid callback, '{$callbackName}' was given"
             );
         }
-        $this->recursiveFilters[] = array($callback, $options);
+        $this->recursiveFilters[] = [$callback, $options];
         return $this;
     }
 

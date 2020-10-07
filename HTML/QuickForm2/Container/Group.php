@@ -4,44 +4,25 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
+
+// pear-package-only /**
+// pear-package-only  * Base class for all HTML_QuickForm2 containers
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Container.php';
 
 /**
  * Base class for QuickForm2 groups of elements
@@ -50,9 +31,9 @@
  * @package  HTML_QuickForm2
  * @author   Alexey Borzov <avb@php.net>
  * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 class HTML_QuickForm2_Container_Group extends HTML_QuickForm2_Container
 {
@@ -108,27 +89,28 @@ class HTML_QuickForm2_Container_Group extends HTML_QuickForm2_Container
     public function setValue($value)
     {
         // Prepare a mapper for element names as array
+        $prefixLength = $this->prependsName() ? substr_count($this->getName(), '[') + 1 : 0;
+        $nameParts = $groupValues = [];
 
-        if ($this->prependsName()) {
-            $prefix = explode('[', str_replace(']', '', $this->getName()));
-        }
-
-        $elements = array();
-        foreach ($this as $child) {
+        /* @var $child HTML_QuickForm2_Node */
+        foreach ($this as $i => $child) {
             $tokens = explode('[', str_replace(']', '', $child->getName()));
-            if (!empty($prefix)) {
-                $tokens = array_slice($tokens, count($prefix));
+            if ($prefixLength) {
+                $tokens = array_slice($tokens, $prefixLength);
             }
-            $elements[] = $tokens;
+            $nameParts[] = $tokens;
+            if ($child instanceof self) {
+                $groupValues[$i] = [];
+            }
         }
 
         // Iterate over values to find corresponding element
 
         $index = 0;
 
-        foreach ($value as $k => $v) {
-            $val = array($k => $v);
-            foreach ($elements as $i => $tokens) {
+        foreach ((array)$value as $k => $v) {
+            foreach ($nameParts as $i => $tokens) {
+                $val = [$k => $v];
                 do {
                     $token = array_shift($tokens);
                     $numeric = false;
@@ -142,7 +124,7 @@ class HTML_QuickForm2_Container_Group extends HTML_QuickForm2_Container
                             ) {
                                 $this->elements[$i]->setAttribute('checked');
                                 // don't want to remove 'checked' on next iteration
-                                unset($elements[$i]);
+                                unset($nameParts[$i]);
                             } else {
                                 $this->elements[$i]->removeAttribute('checked');
                             }
@@ -152,7 +134,7 @@ class HTML_QuickForm2_Container_Group extends HTML_QuickForm2_Container
                         $token = $index;
                         $numeric = true;
                     }
-                    if (!isset($val[$token])) {
+                    if (!is_array($val) || !isset($val[$token])) {
                         // Not found, skip next iterations
                         continue 2;
 
@@ -168,14 +150,20 @@ class HTML_QuickForm2_Container_Group extends HTML_QuickForm2_Container
 
                 // Found a value corresponding to element name
                 $child = $this->elements[$i];
-                $child->setValue($val);
-                unset($val);
-                if (!($child instanceof HTML_QuickForm2_Container_Group)) {
+                if ($child instanceof self) {
+                    $groupValues[$i] += (array)$val;
+                } else {
+                    $child->setValue($val);
                     // Speed up next iterations
-                    unset($elements[$i]);
+                    unset($nameParts[$i]);
                 }
-                break;
+                if (!($child instanceof HTML_QuickForm2_Element_InputRadio)) {
+                    break;
+                }
             }
+        }
+        foreach (array_keys($nameParts) as $i) {
+            $this->elements[$i]->setValue(isset($groupValues[$i]) ? $groupValues[$i] : null);
         }
 
         return $this;
@@ -300,7 +288,7 @@ class HTML_QuickForm2_Container_Group extends HTML_QuickForm2_Container
     * @param string|array $separator Use a string for one separator, array for
     *                                alternating separators
     *
-    * @return   HTML_QuickForm2_Container_Group
+    * @return $this
     */
     public function setSeparator($separator)
     {
@@ -338,7 +326,7 @@ class HTML_QuickForm2_Container_Group extends HTML_QuickForm2_Container
 
     public function __toString()
     {
-        HTML_QuickForm2_Loader::loadClass('HTML_QuickForm2_Renderer');
+        // pear-package-only HTML_QuickForm2_Loader::loadClass('HTML_QuickForm2_Renderer');
 
         $renderer = $this->render(
             HTML_QuickForm2_Renderer::factory('default')

@@ -4,44 +4,25 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
+
+// pear-package-only /**
+// pear-package-only  * Exception classes for HTML_QuickForm2
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Exception.php';
 
 /**
  * Javascript aggregator and builder class
@@ -50,9 +31,9 @@
  * @package  HTML_QuickForm2
  * @author   Alexey Borzov <avb@php.net>
  * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 class HTML_QuickForm2_JavascriptBuilder
 {
@@ -60,21 +41,30 @@ class HTML_QuickForm2_JavascriptBuilder
     * Client-side rules
     * @var array
     */
-    protected $rules = array();
+    protected $rules = [];
 
    /**
     * Elements' setup code
     * @var array
     */
-    protected $scripts = array();
+    protected $scripts = [];
 
    /**
+    * Whether to generate a validator object for the form if no rules are present
+    *
+    * Needed when the form contains an empty repeat element
+    *
+    * @var array
+    */
+    protected $forceValidator = [];
+
+    /**
     * Javascript libraries
     * @var array
     */
-    protected $libraries = array(
-        'base' => array('file' => 'quickform.js')
-    );
+    protected $libraries = [
+        'base' => ['file' => 'quickform.js']
+    ];
 
    /**
     * Default web path to JS library files
@@ -114,7 +104,7 @@ class HTML_QuickForm2_JavascriptBuilder
             // package was probably not installed, use relative path
             if (0 === strpos($defaultAbsPath, '@' . 'data_dir@')) {
                 $defaultAbsPath = realpath(
-                    dirname(dirname(dirname(__FILE__)))
+                    dirname(dirname(__DIR__))
                     . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'js'
                 ) . DIRECTORY_SEPARATOR;
             }
@@ -135,9 +125,9 @@ class HTML_QuickForm2_JavascriptBuilder
     */
     public function addLibrary($name, $fileName, $webPath = null, $absPath = null)
     {
-        $this->libraries[strtolower($name)] = array(
+        $this->libraries[strtolower($name)] = [
             'file' => $fileName, 'webPath' => $webPath, 'absPath' => $absPath
-        );
+        ];
     }
 
 
@@ -152,7 +142,7 @@ class HTML_QuickForm2_JavascriptBuilder
     */
     public function getLibraries($inline = false, $addScriptTags = true)
     {
-        $ret = $inline? '': array();
+        $ret = $inline? '': [];
         foreach ($this->libraries as $name => $library) {
             if ($inline) {
                 $path = !empty($library['absPath'])? $library['absPath']: $this->defaultAbsPath;
@@ -191,8 +181,9 @@ class HTML_QuickForm2_JavascriptBuilder
     public function setFormId($formId)
     {
         $this->formId = $formId;
-        $this->rules[$this->formId]   = array();
-        $this->scripts[$this->formId] = array();
+        $this->rules[$this->formId]          = [];
+        $this->scripts[$this->formId]        = [];
+        $this->forceValidator[$this->formId] = false;
     }
 
 
@@ -217,6 +208,15 @@ class HTML_QuickForm2_JavascriptBuilder
     public function addElementJavascript($script)
     {
         $this->scripts[$this->formId][] = $script;
+    }
+
+
+   /**
+    * Enables generating a validator for the current form even if no rules are present
+    */
+    public function forceValidator()
+    {
+        $this->forceValidator[$this->formId] = true;
     }
 
 
@@ -268,7 +268,9 @@ class HTML_QuickForm2_JavascriptBuilder
     {
         $js = '';
         foreach ($this->rules as $id => $rules) {
-            if ((null === $formId || $id == $formId) && !empty($rules)) {
+            if ((null === $formId || $id == $formId)
+                && (!empty($rules) || !empty($this->forceValidator[$id]))
+            ) {
                 $js .= ('' == $js ? '' : "\n")
                        . "new qf.Validator(document.getElementById('{$id}'), [\n"
                        . implode(",\n", $rules) . "\n]);";
@@ -288,8 +290,13 @@ class HTML_QuickForm2_JavascriptBuilder
     protected function wrapScript($js)
     {
         if ('' != $js) {
-            $js = "<script type=\"text/javascript\">\n//<![CDATA[\n"
-                  . $js . "\n//]]>\n</script>";
+            $cr         = HTML_Common2::getOption('linebreak');
+            $attributes = ' type="text/javascript"';
+            if (null !== ($nonce = HTML_Common2::getOption('nonce'))) {
+                $attributes .= ' nonce="' . $nonce . '"';
+            }
+            $js = "<script{$attributes}>{$cr}//<![CDATA[{$cr}"
+                  . $js . "{$cr}//]]>{$cr}</script>";
         }
         return $js;
     }
@@ -315,32 +322,32 @@ class HTML_QuickForm2_JavascriptBuilder
             return $value;
 
         } elseif (is_string($value)) {
-            return '"' . strtr($value, array(
+            return '"' . strtr($value, [
                                 "\r" => '\r',
                                 "\n" => '\n',
                                 "\t" => '\t',
                                 "'"  => "\\'",
                                 '"'  => '\"',
                                 '\\' => '\\\\'
-                              )) . '"';
+                ]) . '"';
 
         } elseif (is_array($value)) {
             // associative array, encoding as JS object
             if (count($value) && array_keys($value) !== range(0, count($value) - 1)) {
                 return '{' . implode(',', array_map(
-                    array('HTML_QuickForm2_JavascriptBuilder', 'encodeNameValue'),
+                    ['HTML_QuickForm2_JavascriptBuilder', 'encodeNameValue'],
                     array_keys($value), array_values($value)
                 )) . '}';
             }
             return '[' . implode(',', array_map(
-                array('HTML_QuickForm2_JavascriptBuilder', 'encode'),
+                ['HTML_QuickForm2_JavascriptBuilder', 'encode'],
                 $value
             )) . ']';
 
         } elseif (is_object($value)) {
             $vars = get_object_vars($value);
             return '{' . implode(',', array_map(
-                array('HTML_QuickForm2_JavascriptBuilder', 'encodeNameValue'),
+                ['HTML_QuickForm2_JavascriptBuilder', 'encodeNameValue'],
                 array_keys($vars), array_values($vars)
             )) . '}';
 

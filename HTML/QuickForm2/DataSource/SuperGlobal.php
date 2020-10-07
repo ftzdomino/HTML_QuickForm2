@@ -4,44 +4,30 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
+
+// pear-package-only /**
+// pear-package-only  * Interface for data sources containing submitted values
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/DataSource/Submit.php';
+
+// pear-package-only /**
+// pear-package-only  * Array-based data source for HTML_QuickForm2 objects
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/DataSource/Array.php';
 
 /**
  * Data source for HTML_QuickForm2 objects based on superglobal arrays
@@ -50,9 +36,9 @@
  * @package  HTML_QuickForm2
  * @author   Alexey Borzov <avb@php.net>
  * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 class HTML_QuickForm2_DataSource_SuperGlobal
     extends HTML_QuickForm2_DataSource_Array
@@ -62,46 +48,26 @@ class HTML_QuickForm2_DataSource_SuperGlobal
     * Information on file uploads (from $_FILES)
     * @var array
     */
-    protected $files = array();
+    protected $files = [];
 
    /**
     * Keys present in the $_FILES array
     * @var array
     */
-    private static $_fileKeys = array('name', 'type', 'size', 'tmp_name', 'error');
+    private static $_fileKeys = ['name', 'type', 'size', 'tmp_name', 'error'];
 
    /**
     * Class constructor, intializes the internal arrays from superglobals
     *
     * @param string $requestMethod  Request method (GET or POST)
-    * @param bool   $magicQuotesGPC Whether magic_quotes_gpc directive is on
     */
-    public function __construct($requestMethod = 'POST', $magicQuotesGPC = false)
+    public function __construct($requestMethod = 'POST')
     {
-        if (!$magicQuotesGPC) {
-            if ('GET' == strtoupper($requestMethod)) {
-                $this->values = $_GET;
-            } else {
-                $this->values = $_POST;
-                $this->files  = $_FILES;
-            }
+        if ('GET' == strtoupper($requestMethod)) {
+            parent::__construct($_GET);
         } else {
-            if ('GET' == strtoupper($requestMethod)) {
-                $this->values = $this->arrayMapRecursive('stripslashes', $_GET);
-            } else {
-                $this->values = $this->arrayMapRecursive('stripslashes', $_POST);
-                foreach ($_FILES as $key1 => $val1) {
-                    foreach ($val1 as $key2 => $val2) {
-                        if ('name' == $key2) {
-                            $this->files[$key1][$key2] = $this->arrayMapRecursive(
-                                'stripslashes', $val2
-                            );
-                        } else {
-                            $this->files[$key1][$key2] = $val2;
-                        }
-                    }
-                }
-            }
+            parent::__construct($_POST);
+            $this->files = $_FILES;
         }
     }
 
@@ -118,7 +84,7 @@ class HTML_QuickForm2_DataSource_SuperGlobal
         if (!is_array($arr)) {
             return call_user_func($callback, $arr);
         }
-        $mapped = array();
+        $mapped = [];
         foreach ($arr as $k => $v) {
             $mapped[$k] = is_array($v)?
                           $this->arrayMapRecursive($callback, $v):
@@ -135,7 +101,7 @@ class HTML_QuickForm2_DataSource_SuperGlobal
         if (false !== ($pos = strpos($name, '['))) {
             $tokens = explode('[', str_replace(']', '', $name));
             $base   = array_shift($tokens);
-            $value  = array();
+            $value  = [];
             if (!isset($this->files[$base]['name'])) {
                 return null;
             }

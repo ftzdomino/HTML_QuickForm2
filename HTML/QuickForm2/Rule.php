@@ -4,43 +4,19 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
 
 /**
@@ -53,9 +29,9 @@
  * @package  HTML_QuickForm2
  * @author   Alexey Borzov <avb@php.net>
  * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 abstract class HTML_QuickForm2_Rule
 {
@@ -63,31 +39,31 @@ abstract class HTML_QuickForm2_Rule
     * Constant showing that validation should be run server-side
     * @see  HTML_QuickForm2_Node::addRule()
     */
-    const SERVER = 1;
+    const SERVER               = 0b001;
 
    /**
     * Constant showing that validation should be run client-side (on form submit)
     * @see  HTML_QuickForm2_Node::addRule()
     */
-    const CLIENT = 2;
+    const CLIENT               = 0b010;
 
    /**
     * Constant showing that validation should be run client-side (on form submit and on leaving the field)
     * @see  HTML_QuickForm2_Node::addRule()
     */
-    const ONBLUR_CLIENT = 6;
+    const ONBLUR_CLIENT        = 0b110;
 
    /**
     * A combination of SERVER and CLIENT constants
     * @see  HTML_QuickForm2_Node::addRule()
     */
-    const CLIENT_SERVER = 3;
+    const CLIENT_SERVER        = 0b011;
 
    /**
     * A combination of SERVER and ONBLUR_CLIENT constants
     * @see  HTML_QuickForm2_Node::addRule()
     */
-    const ONBLUR_CLIENT_SERVER = 7;
+    const ONBLUR_CLIENT_SERVER = 0b111;
 
    /**
     * An element whose value will be validated by this rule
@@ -116,7 +92,7 @@ abstract class HTML_QuickForm2_Rule
     *
     * @var  array
     */
-    protected $chainedRules = array(array());
+    protected $chainedRules = [[]];
 
 
    /**
@@ -154,7 +130,7 @@ abstract class HTML_QuickForm2_Rule
     *
     * @param mixed $config Rule configuration data (specific for a Rule)
     *
-    * @return   HTML_QuickForm2_Rule
+    * @return   $this
     * @throws   HTML_QuickForm2_Exception_InvalidArgument    in case of invalid
     *               configuration data
     */
@@ -179,7 +155,7 @@ abstract class HTML_QuickForm2_Rule
     *
     * @param string $message Error message to display if validation fails
     *
-    * @return   HTML_QuickForm2_Rule
+    * @return $this
     * @throws HTML_QuickForm2_Exception_InvalidArgument if trying to validate
     *       HTML_QuickForm2_Element_InputHidden with a non-empty error message
     *       (e.g. not in Rule chain)
@@ -249,7 +225,7 @@ abstract class HTML_QuickForm2_Rule
     *
     * @param HTML_QuickForm2_Rule $next
     *
-    * @return   HTML_QuickForm2_Rule    first rule in the chain (i.e. $this)
+    * @return   $this    first rule in the chain (i.e. $this)
     * @throws   HTML_QuickForm2_Exception_InvalidArgument    when trying to add
     *           a "required" rule to the chain
     */
@@ -273,7 +249,7 @@ abstract class HTML_QuickForm2_Rule
     *
     * @param HTML_QuickForm2_Rule $next
     *
-    * @return   HTML_QuickForm2_Rule    first rule in the chain (i.e. $this)
+    * @return   $this    first rule in the chain (i.e. $this)
     * @throws   HTML_QuickForm2_Exception_InvalidArgument    when trying to add
     *           a "required" rule to the chain
     */
@@ -284,7 +260,7 @@ abstract class HTML_QuickForm2_Rule
                 'or_(): Cannot add a "required" rule'
             );
         }
-        $this->chainedRules[] = array($next);
+        $this->chainedRules[] = [$next];
         return $this;
     }
 
@@ -404,7 +380,7 @@ abstract class HTML_QuickForm2_Rule
     */
     public function getJavascript($outputTriggers = true)
     {
-        HTML_QuickForm2_Loader::loadClass('HTML_QuickForm2_JavascriptBuilder');
+        // pear-package-only HTML_QuickForm2_Loader::loadClass('HTML_QuickForm2_JavascriptBuilder');
 
         $js = $this->getJavascriptCallback() . ",\n\t'" . $this->owner->getId()
               . "', " . HTML_QuickForm2_JavascriptBuilder::encode($this->getMessage());
@@ -414,9 +390,9 @@ abstract class HTML_QuickForm2_Rule
               : 'new qf.Rule(' . $js;
 
         if (count($this->chainedRules) > 1 || count($this->chainedRules[0]) > 0) {
-            $chained = array();
+            $chained = [];
             foreach ($this->chainedRules as $item) {
-                $multipliers = array();
+                $multipliers = [];
                 /* @var $multiplier HTML_QuickForm2_Rule */
                 foreach ($item as $multiplier) {
                     $multipliers[] = $multiplier->getJavascript(false);
