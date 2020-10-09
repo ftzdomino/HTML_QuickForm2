@@ -4,44 +4,37 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @author    Herim Vasquez <vasquezh@iro.umontreal.ca>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
+
+// pear-package-only /**
+// pear-package-only  * Base class for HTML_QuickForm2 groups
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Container/Group.php';
+
+// pear-package-only /**
+// pear-package-only  * Classes for <select> elements
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Element/Select.php';
+
+// pear-package-only /**
+// pear-package-only  * Class for adding inline javascript to the form
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Element/Script.php';
+
 
 /**
  * Hierarchical select element
@@ -56,9 +49,9 @@
  * @author   Herim Vasquez <vasquezh@iro.umontreal.ca>
  * @author   Bertrand Mansion <bmansion@mamasam.com>
  * @author   Alexey Borzov <avb@php.net>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
 {
@@ -68,7 +61,7 @@ class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
     * @see  loadOptions()
     * @var  array
     */
-    protected $options = array();
+    protected $options = [];
 
    /**
     * PHP callback function for getting additional options
@@ -98,7 +91,7 @@ class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
     * @see  _loadChildOptions()
     * @see  _generateInlineScript()
     */
-    private $_values = array();
+    private $_values = [];
 
     public function getType()
     {
@@ -119,12 +112,12 @@ class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
     * @param string|array $attributes Attributes (either a string or an array)
     * @param array        $data       Additional element data
     */
-    public function __construct($name = null, $attributes = null, array $data = array())
+    public function __construct($name = null, $attributes = null, array $data = [])
     {
         if (!empty($data['size'])) {
             $this->size = $data['size'];
         }
-        $options = isset($data['options'])? $data['options']: array();
+        $options = isset($data['options'])? $data['options']: [];
         unset($data['options'], $data['size']);
         parent::__construct($name, $attributes, $data);
         $this->loadOptions($options);
@@ -173,7 +166,7 @@ class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
      *      (presumably via some sort of AJAX request). It will receive an
      *      array of keys and should return {'values': [...], 'texts': [...]}
      *
-     * @return  HTML_QuickForm2_Element_Hierselect
+     * @return  $this
      * @throws  HTML_QuickForm2_Exception_InvalidArgument
      */
     public function loadOptions(array $options, $callback = null, $jsCallback = null)
@@ -204,7 +197,7 @@ class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
             $data = $this->getData();
             unset($data['label']);
             $this->appendChild(new HTML_QuickForm2_Element_Select(
-                $i, array('id' => self::generateId($this->getName() . "[{$i}]")) + $this->getAttributes(), $data
+                $i, ['id' => self::generateId($this->getName() . "[{$i}]")] + $this->getAttributes(), $data
             ));
         }
     }
@@ -215,10 +208,11 @@ class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
     private function _loadChildOptions()
     {
         $idx           = 0;
-        $this->_values = array();
+        $this->_values = [];
+        /* @var $select HTML_QuickForm2_Element_Select */
         foreach ($this as $select) {
             if (empty($this->options[$idx])) {
-                $this->options[$idx] = array();
+                $this->options[$idx] = [];
             }
             $keys  =  $this->_values;
             $array =& $this->options[$idx++];
@@ -226,7 +220,7 @@ class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
                 $key = array_shift($keys);
                 if (!isset($array[$key])) {
                     if (!empty($keys)) {
-                        $array[$key] = array();
+                        $array[$key] = [];
                     } elseif (!empty($this->callback)) {
                         $array[$key] = call_user_func($this->callback, $this->_values);
                     } else {
@@ -250,11 +244,13 @@ class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
     *
     * @param array $value
     *
-    * @return   HTML_QuickForm2_Element_Hierselect
+    * @return $this
     */
     public function setValue($value)
     {
-        $this->size = max($this->size, count($value));
+        if (is_array($value)) {
+            $this->size = max($this->size, count($value));
+        }
         $this->_createSelects();
         parent::setValue($value);
         $this->_loadChildOptions();
@@ -269,7 +265,7 @@ class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
      *
      * @param string $name
      *
-     * @return HTML_QuickForm2_Element_Hierselect
+     * @return $this
      */
     public function setName($name)
     {
@@ -288,8 +284,11 @@ class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
     protected function updateValue()
     {
         $name = $this->getName();
+        /* @var $ds HTML_QuickForm2_DataSource_NullAware */
         foreach ($this->getDataSources() as $ds) {
-            if (null !== ($value = $ds->getValue($name))) {
+            if (null !== ($value = $ds->getValue($name))
+                || $ds instanceof HTML_QuickForm2_DataSource_NullAware && $ds->hasValue($name)
+            ) {
                 $this->setValue($value);
                 return;
             }
@@ -315,9 +314,9 @@ class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
         if (!is_array($ary)) {
             $ret = $ary;
         } elseif (0 == $depth) {
-            $ret = array('values' => array_keys($ary), 'texts' => array_values($ary));
+            $ret = ['values' => array_keys($ary), 'texts' => array_values($ary)];
         } else {
-            $ret = array();
+            $ret = [];
             foreach ($ary as $k => $v) {
                 $ret[$k] = $this->_prepareOptions($v, $depth - 1);
             }
@@ -338,7 +337,7 @@ class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
         $cr       = HTML_Common2::getOption('linebreak');
         $js       = "qf.elements.hierselect.defaults['{$selectId}'] = " .
                     HTML_QuickForm2_JavascriptBuilder::encode($this->_values) . ";{$cr}";
-        $jsParts  = array();
+        $jsParts  = [];
         for ($i = 1; $i < count($this->options); $i++) {
             $jsParts[] = empty($this->options[$i])
                          ? '{}' : HTML_QuickForm2_JavascriptBuilder::encode($this->_prepareOptions(
@@ -357,9 +356,10 @@ class HTML_QuickForm2_Element_Hierselect extends HTML_QuickForm2_Container_Group
     */
     private function _generateInitScript()
     {
-        HTML_QuickForm2_Loader::loadClass('HTML_QuickForm2_JavascriptBuilder');
+        // pear-package-only HTML_QuickForm2_Loader::loadClass('HTML_QuickForm2_JavascriptBuilder');
 
-        $ids = array();
+        $ids = [];
+        /* @var $element HTML_QuickForm2_Element */
         foreach ($this as $element) {
             $ids[] = $element->getId();
         }

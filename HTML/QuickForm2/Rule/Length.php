@@ -4,44 +4,25 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
+
+// pear-package-only /**
+// pear-package-only  * Base class for HTML_QuickForm2 rules
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Rule.php';
 
 /**
  * Rule checking the value's length
@@ -68,9 +49,9 @@
  * @package  HTML_QuickForm2
  * @author   Alexey Borzov <avb@php.net>
  * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 class HTML_QuickForm2_Rule_Length extends HTML_QuickForm2_Rule
 {
@@ -100,7 +81,7 @@ class HTML_QuickForm2_Rule_Length extends HTML_QuickForm2_Rule
         if (is_scalar($allowedLength)) {
             $check = "length == {$allowedLength}";
         } else {
-            $checks = array();
+            $checks = [];
             if (!empty($allowedLength['min'])) {
                 $checks[] = "length >= {$allowedLength['min']}";
             }
@@ -177,10 +158,10 @@ class HTML_QuickForm2_Rule_Length extends HTML_QuickForm2_Rule
             $length = $globalConfig;
 
         } else {
-            $length = self::mergeMinMaxLength(array(), $globalConfig);
+            $length = self::mergeMinMaxLength([], $globalConfig);
             if (isset($localConfig)) {
                 $length = self::mergeMinMaxLength(
-                    $length, is_array($localConfig)? $localConfig: array($localConfig)
+                    $length, is_array($localConfig)? $localConfig: [$localConfig]
                 );
             }
         }
@@ -204,8 +185,8 @@ class HTML_QuickForm2_Rule_Length extends HTML_QuickForm2_Rule
     public function setConfig($config)
     {
         if (is_array($config)) {
-            $config = self::mergeMinMaxLength(array(), $config)
-                      + array('min' => 0, 'max' => 0);
+            $config = self::mergeMinMaxLength([], $config)
+                      + ['min' => 0, 'max' => 0];
         }
         if (is_array($config) && ($config['min'] < 0 || $config['max'] < 0)
             || !is_array($config) && $config < 0
@@ -226,7 +207,7 @@ class HTML_QuickForm2_Rule_Length extends HTML_QuickForm2_Rule
 
         if (!empty($config['min']) && !empty($config['max'])) {
             if ($config['min'] > $config['max']) {
-                list($config['min'], $config['max']) = array($config['max'], $config['min']);
+                list($config['min'], $config['max']) = [$config['max'], $config['min']];
             } elseif ($config['min'] == $config['max']) {
                 $config = $config['min'];
             }

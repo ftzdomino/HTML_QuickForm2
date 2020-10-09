@@ -4,45 +4,26 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @author   Thomas Schulz <ths@4bconsult.de>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @author    Thomas Schulz <ths@4bconsult.de>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
+
+// pear-package-only /**
+// pear-package-only  * Abstract base class for QuickForm2 renderers
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Renderer.php';
 
 /**
  * A renderer for HTML_QuickForm2 building an array of form elements
@@ -122,9 +103,9 @@
  * @author   Alexey Borzov <avb@php.net>
  * @author   Bertrand Mansion <golgote@mamasam.com>
  * @author   Thomas Schulz <ths@4bconsult.de>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 class HTML_QuickForm2_Renderer_Array extends HTML_QuickForm2_Renderer
 {
@@ -132,13 +113,13 @@ class HTML_QuickForm2_Renderer_Array extends HTML_QuickForm2_Renderer
     * An array being generated
     * @var array
     */
-    public $array = array();
+    public $array = [];
 
    /**
     * Array with references to 'elements' fields of currently processed containers
     * @var array
     */
-    public $containers = array();
+    public $containers = [];
 
    /**
     * Whether the form contains required elements
@@ -150,7 +131,7 @@ class HTML_QuickForm2_Renderer_Array extends HTML_QuickForm2_Renderer
     * Additional style information for elements
     * @var array
     */
-    public $styles = array();
+    public $styles = [];
 
    /**
     * Constructor, adds a new 'static_labels' option
@@ -162,10 +143,10 @@ class HTML_QuickForm2_Renderer_Array extends HTML_QuickForm2_Renderer
 
     protected function exportMethods()
     {
-        return array(
+        return [
             'toArray',
             'setStyleForId'
-        );
+        ];
     }
 
    /**
@@ -174,12 +155,12 @@ class HTML_QuickForm2_Renderer_Array extends HTML_QuickForm2_Renderer
     * This method is called automatically by startForm() method, but should
     * be called manually before calling other rendering methods separately.
     *
-    * @return HTML_QuickForm2_Renderer_Array
+    * @return $this
     */
     public function reset()
     {
-        $this->array       = array();
-        $this->containers  = array();
+        $this->array       = [];
+        $this->containers  = [];
         $this->hasRequired = false;
 
         return $this;
@@ -204,10 +185,10 @@ class HTML_QuickForm2_Renderer_Array extends HTML_QuickForm2_Renderer
     */
     public function buildCommonFields(HTML_QuickForm2_Node $element)
     {
-        $ary = array(
+        $ary = [
             'id'     => $element->getId(),
             'frozen' => $element->toggleFrozen()
-        );
+        ];
         if ($labels = $element->getLabel()) {
             if (!is_array($labels) || !$this->options['static_labels']) {
                 $ary['label'] = $labels;
@@ -242,10 +223,10 @@ class HTML_QuickForm2_Renderer_Array extends HTML_QuickForm2_Renderer
      */
     public function buildCommonContainerFields(HTML_QuickForm2_Node $container)
     {
-        return $this->buildCommonFields($container) + array(
-            'elements'   => array(),
+        return $this->buildCommonFields($container) + [
+            'elements'   => [],
             'attributes' => $container->getAttributes(true)
-        );
+            ];
     }
 
    /**
@@ -277,7 +258,7 @@ class HTML_QuickForm2_Renderer_Array extends HTML_QuickForm2_Renderer
         }
         if (empty($this->containers)) {
             $this->array      += $container;
-            $this->containers  = array(&$this->array['elements']);
+            $this->containers  = [&$this->array['elements']];
         } else {
             $cntIndex = count($this->containers) - 1;
             $myIndex  = count($this->containers[$cntIndex]);
@@ -295,7 +276,7 @@ class HTML_QuickForm2_Renderer_Array extends HTML_QuickForm2_Renderer
     * @param string|array $idOrStyles Element id or array ('element id' => 'style')
     * @param mixed        $style      Element style if $idOrStyles is not an array
     *
-    * @return   HTML_QuickForm2_Renderer_Array
+    * @return $this
     */
     public function setStyleForId($idOrStyles, $style = null)
     {
@@ -312,12 +293,12 @@ class HTML_QuickForm2_Renderer_Array extends HTML_QuickForm2_Renderer
     */
     public function renderElement(HTML_QuickForm2_Node $element)
     {
-        $ary = $this->buildCommonFields($element) + array(
+        $ary = $this->buildCommonFields($element) + [
             'html'     => $element->__toString(),
             'value'    => $element->getValue(),
             'type'     => $element->getType(),
             'required' => $element->isRequired(),
-        );
+            ];
         $this->pushScalar($ary);
     }
 
@@ -336,12 +317,12 @@ class HTML_QuickForm2_Renderer_Array extends HTML_QuickForm2_Renderer
 
         $this->array = $this->buildCommonContainerFields($form);
         if ($this->options['group_errors']) {
-            $this->array['errors'] = array();
+            $this->array['errors'] = [];
         }
         if ($this->options['group_hiddens']) {
-            $this->array['hidden'] = array();
+            $this->array['hidden'] = [];
         }
-        $this->containers  = array(&$this->array['elements']);
+        $this->containers  = [&$this->array['elements']];
     }
 
     public function finishForm(HTML_QuickForm2_Node $form)
@@ -355,10 +336,10 @@ class HTML_QuickForm2_Renderer_Array extends HTML_QuickForm2_Renderer
 
     public function startContainer(HTML_QuickForm2_Node $container)
     {
-        $ary = $this->buildCommonContainerFields($container) + array(
+        $ary = $this->buildCommonContainerFields($container) + [
             'required' => $container->isRequired(),
             'type'     => $container->getType()
-        );
+            ];
         $this->pushContainer($ary);
     }
 
@@ -369,13 +350,13 @@ class HTML_QuickForm2_Renderer_Array extends HTML_QuickForm2_Renderer
 
     public function startGroup(HTML_QuickForm2_Node $group)
     {
-        $ary = $this->buildCommonContainerFields($group) + array(
+        $ary = $this->buildCommonContainerFields($group) + [
             'required' => $group->isRequired(),
             'type'     => $group->getType(),
             'class'    => $group->getAttribute('class')
-        );
+            ];
         if ($separator = $group->getSeparator()) {
-            $ary['separator'] = array();
+            $ary['separator'] = [];
             for ($i = 0, $count = count($group); $i < $count - 1; $i++) {
                 if (!is_array($separator)) {
                     $ary['separator'][] = (string)$separator;

@@ -4,44 +4,30 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
+
+// pear-package-only /**
+// pear-package-only  * Abstract base class for QuickForm2 containers
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Container.php';
+
+// pear-package-only /**
+// pear-package-only  * Data source for HTML_QuickForm2 objects based on superglobal arrays
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/DataSource/SuperGlobal.php';
 
 /**
  * Class representing a HTML form
@@ -50,9 +36,9 @@
  * @package  HTML_QuickForm2
  * @author   Alexey Borzov <avb@php.net>
  * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 class HTML_QuickForm2 extends HTML_QuickForm2_Container
 {
@@ -60,13 +46,13 @@ class HTML_QuickForm2 extends HTML_QuickForm2_Container
     * Data sources providing values for form elements
     * @var array
     */
-    protected $datasources = array();
+    protected $datasources = [];
 
    /**
     * We do not allow setting "method" and "id" other than through constructor
     * @var array
     */
-    protected $watchedAttributes = array('id', 'method');
+    protected $watchedAttributes = ['id', 'method'];
 
    /**
     * Class constructor, form's "id" and "method" attributes can only be set here
@@ -85,7 +71,7 @@ class HTML_QuickForm2 extends HTML_QuickForm2_Container
         $trackSubmit = empty($id) ? false : $trackSubmit;
         $this->attributes = array_merge(
             self::prepareAttributes($attributes),
-            array('method' => $method)
+            ['method' => $method]
         );
         parent::setId(empty($id) ? null : $id);
         if (!isset($this->attributes['action'])) {
@@ -95,16 +81,14 @@ class HTML_QuickForm2 extends HTML_QuickForm2_Container
             !$trackSubmit && ('get' == $method && !empty($_GET) ||
                               'post' == $method && (!empty($_POST) || !empty($_FILES)))
         ) {
-            $this->addDataSource(new HTML_QuickForm2_DataSource_SuperGlobal(
-                $method, get_magic_quotes_gpc()
-            ));
+            $this->addDataSource(new HTML_QuickForm2_DataSource_SuperGlobal($method));
         }
         if ($trackSubmit) {
             $this->appendChild(HTML_QuickForm2_Factory::createElement(
-                'hidden', '_qf__' . $id, array('id' => 'qf:' . $id)
+                'hidden', '_qf__' . $id, ['id' => 'qf:' . $id]
             ));
         }
-        $this->addFilter(array($this, 'skipInternalFields'));
+        $this->addFilter([$this, 'skipInternalFields']);
     }
 
     protected function onAttributeChange($name, $value = null)

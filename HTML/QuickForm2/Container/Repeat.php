@@ -4,112 +4,25 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
 
-/**
- * Javascript builder used when rendering a repeat prototype
- *
- * Instead of returning form setup code and client-side rules as normal
- * Javascript code, it returns them as Javascript string literals. These are
- * expected to be eval()'d when adding a new repeat item.
- *
- * This class is not intended for normal use.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
- */
-class HTML_QuickForm2_Container_Repeat_JavascriptBuilder
-    extends HTML_QuickForm2_JavascriptBuilder
-{
-    /**
-     * Fake "current form" ID
-     * @var string
-     */
-    protected $formId = 'repeat';
-
-    /**
-     * Empty list of javascript libraries, base one(s) are in original builder
-     * @var array
-     */
-    protected $libraries = array();
-
-
-    /**
-     * Returns rules and element setup code as Javascript string literals
-     *
-     * @return array array('rules', 'setup code')
-     */
-    public function getFormJavascriptAsStrings()
-    {
-        return array(
-            self::encode(
-                empty($this->rules['repeat'])
-                ? '' : "[\n" . implode(",\n", $this->rules['repeat']) . "\n]"
-            ),
-            self::encode(
-                empty($this->scripts['repeat'])
-                ? '' : implode("\n", $this->scripts['repeat'])
-            )
-        );
-    }
-
-    /**
-     * Passes Javascript libraries added by repeat prototype
-     *
-     * @param HTML_QuickForm2_JavascriptBuilder $recipient original Javascript builder
-     */
-    public function passLibraries(HTML_QuickForm2_JavascriptBuilder $recipient)
-    {
-        foreach ($this->libraries as $name => $library) {
-            $recipient->addLibrary(
-                $name, $library['file'], $library['webPath'], $library['absPath']
-            );
-        }
-    }
-}
-
+// pear-package-only /** Base class for all HTML_QuickForm2 containers */
+// pear-package-only require_once 'HTML/QuickForm2/Container.php';
+// pear-package-only /** Javascript builder used when rendering a repeat prototype */
+// pear-package-only require_once 'HTML/QuickForm2/Container/Repeat/JavascriptBuilder.php';
 
 
 /**
@@ -140,9 +53,9 @@ class HTML_QuickForm2_Container_Repeat_JavascriptBuilder
  * @package  HTML_QuickForm2
  * @author   Alexey Borzov <avb@php.net>
  * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 class HTML_QuickForm2_Container_Repeat extends HTML_QuickForm2_Container
 {
@@ -166,13 +79,13 @@ class HTML_QuickForm2_Container_Repeat extends HTML_QuickForm2_Container
      * Available indexes
      * @var array
      */
-    protected $itemIndexes = array();
+    protected $itemIndexes = [];
 
     /**
      * Errors for (repeated) child elements set during validate() call
      * @var array
      */
-    protected $childErrors = array();
+    protected $childErrors = [];
 
     /**
      * Whether getDataSources() should return Container's data sources
@@ -216,7 +129,7 @@ class HTML_QuickForm2_Container_Repeat extends HTML_QuickForm2_Container
      * @param string|array $attributes Attributes (either a string or an array)
      * @param array        $data       Additional element data
      */
-    public function __construct($name = null, $attributes = null, array $data = array())
+    public function __construct($name = null, $attributes = null, array $data = [])
     {
         if (!empty($data['prototype'])) {
             $this->setPrototype($data['prototype']);
@@ -230,13 +143,13 @@ class HTML_QuickForm2_Container_Repeat extends HTML_QuickForm2_Container
      *
      * @param HTML_QuickForm2_Container $prototype prototype container
      *
-     * @return HTML_QuickForm2_Container_Repeat
+     * @return $this
      */
     public function setPrototype(HTML_QuickForm2_Container $prototype)
     {
         if (!empty($this->elements[0])) {
             parent::removeChild($this->elements[0]);
-            $this->elements = array();
+            $this->elements = [];
         }
         parent::appendChild($prototype);
         return $this;
@@ -315,7 +228,7 @@ class HTML_QuickForm2_Container_Repeat extends HTML_QuickForm2_Container
     protected function getDataSources()
     {
         if (!$this->passDataSources) {
-            return array();
+            return [];
         } else {
             return parent::getDataSources();
         }
@@ -331,7 +244,7 @@ class HTML_QuickForm2_Container_Repeat extends HTML_QuickForm2_Container
      *
      * @param string $field field name
      *
-     * @return HTML_QuickForm2_Container_Repeat
+     * @return $this
      */
     public function setIndexField($field)
     {
@@ -398,11 +311,11 @@ class HTML_QuickForm2_Container_Repeat extends HTML_QuickForm2_Container
      *
      * @param array $indexes
      *
-     * @return HTML_QuickForm2_Container_Repeat
+     * @return $this
      */
     public function setIndexes(array $indexes)
     {
-        $hash = array();
+        $hash = [];
         foreach ($indexes as $index) {
             if (preg_match(self::INDEX_REGEXP, $index)) {
                 $hash[$index] = true;
@@ -491,23 +404,26 @@ class HTML_QuickForm2_Container_Repeat extends HTML_QuickForm2_Container
     protected function backupChildAttributes($backupId = false, $backupError = false)
     {
         $this->appendIndexTemplates();
-        $backup = array();
+        $backup = [];
         $key    = 0;
         /* @var HTML_QuickForm2_Node $child */
         foreach ($this->getRecursiveIterator() as $child) {
-            $backup[$key++] = array(
-                'name' => $child->getName(),
-            ) + (
-                $child instanceof HTML_QuickForm2_Element_InputCheckable
-                ? array('valueAttr' => $child->getAttribute('value')) : array()
-            ) + (
-                $child instanceof HTML_QuickForm2_Container
-                ? array() : array('value' => $child->getValue())
-            ) + (
-                $backupId ? array('id' => $child->getId()) : array()
-            ) + (
-                $backupError ? array('error' => $child->getError()) : array()
-            );
+            $backup[$key] = ['name' => $child->getName()];
+            if ($child instanceof HTML_QuickForm2_Element_InputCheckable) {
+                $backup[$key]['valueAttr'] = $child->getAttribute('value');
+            }
+            if (!($child instanceof HTML_QuickForm2_Container)
+                && !($child instanceof HTML_QuickForm2_Element_Static)
+            ) {
+                $backup[$key]['value'] = $child->getValue();
+            }
+            if ($backupId) {
+                $backup[$key]['id'] = $child->getId();
+            }
+            if ($backupError) {
+                $backup[$key]['error'] = $child->getError();
+            }
+            $key++;
         }
         return $backup;
     }
@@ -592,12 +508,12 @@ class HTML_QuickForm2_Container_Repeat extends HTML_QuickForm2_Container
     protected function getChildValues($filtered = false)
     {
         $backup = $this->backupChildAttributes();
-        $values = array();
+        $values = [];
         foreach ($this->getIndexes() as $index) {
             $this->replaceIndexTemplates($index, $backup);
-            $values = self::arrayMerge(
-                $values, parent::getChildValues($filtered)
-            );
+            if (null !== ($itemValues = parent::getChildValues($filtered))) {
+                $values = self::arrayMerge($values, $itemValues);
+            }
         }
         $this->restoreChildAttributes($backup);
         return empty($values) ? null : $values;
@@ -615,7 +531,7 @@ class HTML_QuickForm2_Container_Repeat extends HTML_QuickForm2_Container
     {
         $backup = $this->backupChildAttributes(false, true);
         $valid  = true;
-        $this->childErrors = array();
+        $this->childErrors = [];
         foreach ($this->getIndexes() as $index) {
             $this->replaceIndexTemplates($index, $backup);
             $valid = $this->getPrototype()->validate() && $valid;
@@ -651,13 +567,45 @@ class HTML_QuickForm2_Container_Repeat extends HTML_QuickForm2_Container
     ) {
         $myId     = HTML_QuickForm2_JavascriptBuilder::encode($this->getId());
         $protoId  = HTML_QuickForm2_JavascriptBuilder::encode($this->getPrototype()->getId());
-        $triggers = HTML_QuickForm2_JavascriptBuilder::encode(
-            $this->getJavascriptTriggers()
-        );
+
+        $triggers = [];
+        /* @var $child HTML_QuickForm2_Node */
+        foreach ($this->getRecursiveIterator() as $child) {
+            $triggers[] = $child->getId();
+        }
+        $triggers = HTML_QuickForm2_JavascriptBuilder::encode($triggers);
+
         list ($rules, $scripts) = $evalBuilder->getFormJavascriptAsStrings();
 
         return "new qf.elements.Repeat(document.getElementById({$myId}), {$protoId}, "
                . "{$triggers},\n{$rules},\n{$scripts}\n);";
+    }
+
+    /**
+     * Adds element's client-side validation rules to a builder object
+     *
+     * This will also call forceValidator() if the repeat does not contain
+     * any (visible) items but some of the child elements define client-side rules
+     *
+     * @param HTML_QuickForm2_JavascriptBuilder $builder
+     */
+    protected function renderClientRules(HTML_QuickForm2_JavascriptBuilder $builder)
+    {
+        if ($this->toggleFrozen()) {
+            return;
+        }
+        if (!$this->getIndexes()) {
+            $fakeBuilder = new HTML_QuickForm2_JavascriptBuilder();
+            /* @var $child HTML_QuickForm2_Node */
+            foreach ($this->getRecursiveIterator() as $child) {
+                $child->renderClientRules($fakeBuilder);
+            }
+            if ($fakeBuilder->getValidator()) {
+                $builder->forceValidator();
+            }
+        }
+
+        parent::renderClientRules($builder);
     }
 
     /**

@@ -4,44 +4,25 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
+
+// pear-package-only /**
+// pear-package-only  * Class with static methods for loading classes and files
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Loader.php';
 
 /**
  * Abstract base class for QuickForm2 renderers
@@ -60,9 +41,9 @@
  * @package  HTML_QuickForm2
  * @author   Alexey Borzov <avb@php.net>
  * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 abstract class HTML_QuickForm2_Renderer
 {
@@ -70,36 +51,36 @@ abstract class HTML_QuickForm2_Renderer
     * List of registered renderer types
     * @var array
     */
-    private static $_types = array(
-        'callback' => array('HTML_QuickForm2_Renderer_Callback', null),
-        'default'  => array('HTML_QuickForm2_Renderer_Default', null),
-        'array'    => array('HTML_QuickForm2_Renderer_Array', null),
-        'stub'     => array('HTML_QuickForm2_Renderer_Stub', null)
-    );
+    private static $_types = [
+        'callback' => ['HTML_QuickForm2_Renderer_Callback', null],
+        'default'  => ['HTML_QuickForm2_Renderer_Default', null],
+        'array'    => ['HTML_QuickForm2_Renderer_Array', null],
+        'stub'     => ['HTML_QuickForm2_Renderer_Stub', null]
+    ];
 
    /**
     * List of registered renderer plugins
     * @var array
     */
-    private static $_pluginClasses = array(
-        'callback' => array(),
-        'default'  => array(),
-        'array'    => array(),
-        'stub'     => array()
-    );
+    private static $_pluginClasses = [
+        'callback' => [],
+        'default'  => [],
+        'array'    => [],
+        'stub'     => []
+    ];
 
    /**
     * Renderer options
     * @var  array
     * @see  setOption()
     */
-    protected $options = array(
+    protected $options = [
         'group_hiddens' => true,
         'required_note' => '<em>*</em> denotes required fields.',
         'errors_prefix' => 'Invalid information entered:',
         'errors_suffix' => 'Please correct these fields.',
         'group_errors'  => false
-    );
+    ];
 
    /**
     * Javascript builder object
@@ -139,8 +120,8 @@ abstract class HTML_QuickForm2_Renderer
         }
 
         list ($className, $includeFile) = self::$_types[$type];
-        HTML_QuickForm2_Loader::loadClass($className, $includeFile);
-        HTML_QuickForm2_Loader::loadClass('HTML_QuickForm2_Renderer_Proxy');
+        HTML_QuickForm2_Loader::loadClass($className, $includeFile, true);
+        // pear-package-only HTML_QuickForm2_Loader::loadClass('HTML_QuickForm2_Renderer_Proxy');
         return new HTML_QuickForm2_Renderer_Proxy(new $className, self::$_pluginClasses[$type]);
     }
 
@@ -157,9 +138,9 @@ abstract class HTML_QuickForm2_Renderer
     final public static function register($type, $className, $includeFile = null)
     {
         $type = strtolower($type);
-        self::$_types[$type] = array($className, $includeFile);
+        self::$_types[$type] = [$className, $includeFile];
         if (empty(self::$_pluginClasses[$type])) {
-            self::$_pluginClasses[$type] = array();
+            self::$_pluginClasses[$type] = [];
         }
     }
 
@@ -178,7 +159,7 @@ abstract class HTML_QuickForm2_Renderer
         // We don't check self::$_types, since a plugin may be registered
         // before renderer itself if it goes with some custom element
         if (empty(self::$_pluginClasses[$type])) {
-            self::$_pluginClasses[$type] = array(array($className, $includeFile));
+            self::$_pluginClasses[$type] = [[$className, $includeFile]];
         } else {
             foreach (self::$_pluginClasses[$type] as $plugin) {
                 if (0 == strcasecmp($plugin[0], $className)) {
@@ -187,7 +168,7 @@ abstract class HTML_QuickForm2_Renderer
                     );
                 }
             }
-            self::$_pluginClasses[$type][] = array($className, $includeFile);
+            self::$_pluginClasses[$type][] = [$className, $includeFile];
         }
     }
 
@@ -210,7 +191,7 @@ abstract class HTML_QuickForm2_Renderer
     */
     protected function exportMethods()
     {
-        return array();
+        return [];
     }
 
    /**
@@ -248,7 +229,7 @@ abstract class HTML_QuickForm2_Renderer
     * @param string|array $nameOrOptions option name or array ('option name' => 'option value')
     * @param mixed        $value         parameter value if $nameOrConfig is not an array
     *
-    * @return   HTML_QuickForm2_Renderer
+    * @return   $this
     * @throws   HTML_QuickForm2_Exception_NotFound in case of unknown option
     */
     public function setOption($nameOrOptions, $value = null)
@@ -299,7 +280,7 @@ abstract class HTML_QuickForm2_Renderer
     public function getJavascriptBuilder()
     {
         if (empty($this->jsBuilder)) {
-            HTML_QuickForm2_Loader::loadClass('HTML_QuickForm2_JavascriptBuilder');
+            // pear-package-only HTML_QuickForm2_Loader::loadClass('HTML_QuickForm2_JavascriptBuilder');
             $this->jsBuilder = new HTML_QuickForm2_JavascriptBuilder();
         }
         return $this->jsBuilder;
@@ -313,7 +294,7 @@ abstract class HTML_QuickForm2_Renderer
     *
     * @param    HTML_QuickForm2_JavascriptBuilder $builder
     *
-    * @return   HTML_QuickForm2_Renderer
+    * @return $this
     */
     public function setJavascriptBuilder(HTML_QuickForm2_JavascriptBuilder $builder = null)
     {
@@ -327,7 +308,7 @@ abstract class HTML_QuickForm2_Renderer
     * This method is called automatically by startForm() method, but should
     * be called manually before calling other rendering methods separately.
     *
-    * @return HTML_QuickForm2_Renderer
+    * @return $this
     */
     abstract public function reset();
 

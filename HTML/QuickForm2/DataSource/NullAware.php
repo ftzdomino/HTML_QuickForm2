@@ -1,6 +1,6 @@
 <?php
 /**
- * Interface for data sources containing submitted values
+ * Interface for data sources that may contain explicit null values
  *
  * PHP version 5
  *
@@ -25,11 +25,13 @@
 // pear-package-only require_once 'HTML/QuickForm2/DataSource.php';
 
 /**
- * Interface for data sources containing submitted values
+ * Interface for data sources that may contain explicit null values
  *
- * This interface provides method for getting information on uploaded files.
- * Additionally some elements will only consider getting their values from data
- * sources implementing this interface.
+ * getValue() was designed to return null for missing values, unfortunately that
+ * led to bugs when data source contained values explicitly set to null,
+ * see {@link http://pear.php.net/bugs/bug.php?id=20295}. This interface defines
+ * a method that may be used by elements to check whether a value is available,
+ * even if that value is null.
  *
  * @category HTML
  * @package  HTML_QuickForm2
@@ -38,18 +40,19 @@
  * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
  * @link     https://pear.php.net/package/HTML_QuickForm2
+ * @since    Release 2.0.1
  */
-interface HTML_QuickForm2_DataSource_Submit extends HTML_QuickForm2_DataSource
+interface HTML_QuickForm2_DataSource_NullAware extends HTML_QuickForm2_DataSource
 {
-   /**
-    * Returns the information about uploaded file
-    *
-    * If data source doesn't such information it should return null
-    *
-    * @param string $name Name of file upload field
-    *
-    * @return   array|null  Information on uploaded file, from $_FILES array
-    */
-    public function getUpload($name);
+    /**
+     * Checks whether a value for the element with a given name is available
+     *
+     * Will return true even if the value is null, similar to array_key_exists()
+     *
+     * @param string $name Element's name
+     *
+     * @return bool
+     */
+    public function hasValue($name);
 }
 ?>

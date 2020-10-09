@@ -1,6 +1,6 @@
 <?php
 /**
- * Interface for Controller action handlers
+ * Implements a recursive iterator for the container elements
  *
  * PHP version 5
  *
@@ -19,9 +19,8 @@
  * @link      https://pear.php.net/package/HTML_QuickForm2
  */
 
-
 /**
- * Interface for Controller action handlers
+ * Implements a recursive iterator for the container elements
  *
  * @category HTML
  * @package  HTML_QuickForm2
@@ -31,16 +30,22 @@
  * @version  Release: @package_version@
  * @link     https://pear.php.net/package/HTML_QuickForm2
  */
-interface HTML_QuickForm2_Controller_Action
+class HTML_QuickForm2_ContainerIterator extends RecursiveArrayIterator implements RecursiveIterator
 {
-   /**
-    * Performs the given action upon the given page
-    *
-    * @param HTML_QuickForm2_Controller_Page $page page of the multipage form
-    * @param string                          $name action name, some action handlers
-    *                                           may perform different tasks depending
-    *                                           on this
-    */
-    public function perform(HTML_QuickForm2_Controller_Page $page, $name);
+    public function __construct(HTML_QuickForm2_Container $container)
+    {
+        parent::__construct($container->getElements());
+    }
+
+    public function hasChildren()
+    {
+        return $this->current() instanceof HTML_QuickForm2_Container;
+    }
+
+    public function getChildren()
+    {
+        return new HTML_QuickForm2_ContainerIterator($this->current());
+    }
 }
+
 ?>

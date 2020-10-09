@@ -4,44 +4,25 @@
  *
  * PHP version 5
  *
- * LICENSE:
+ * LICENSE
  *
- * Copyright (c) 2006-2012, Alexey Borzov <avb@php.net>,
- *                          Bertrand Mansion <golgote@mamasam.com>
- * All rights reserved.
+ * This source file is subject to BSD 3-Clause License that is bundled
+ * with this package in the file LICENSE and available at the URL
+ * https://raw.githubusercontent.com/pear/HTML_QuickForm2/trunk/docs/LICENSE
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *    * Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    * Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in the
- *      documentation and/or other materials provided with the distribution.
- *    * The names of the authors may not be used to endorse or promote products
- *      derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
- * OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category HTML
- * @package  HTML_QuickForm2
- * @author   Alexey Borzov <avb@php.net>
- * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id$
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @category  HTML
+ * @package   HTML_QuickForm2
+ * @author    Alexey Borzov <avb@php.net>
+ * @author    Bertrand Mansion <golgote@mamasam.com>
+ * @copyright 2006-2020 Alexey Borzov <avb@php.net>, Bertrand Mansion <golgote@mamasam.com>
+ * @license   https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
+ * @link      https://pear.php.net/package/HTML_QuickForm2
  */
+
+// pear-package-only /**
+// pear-package-only  * Abstract base class for QuickForm2 renderers
+// pear-package-only  */
+// pear-package-only require_once 'HTML/QuickForm2/Renderer.php';
 
 /**
  * Proxy class for HTML_QuickForm2 renderers and their plugins
@@ -60,9 +41,9 @@
  * @package  HTML_QuickForm2
  * @author   Alexey Borzov <avb@php.net>
  * @author   Bertrand Mansion <golgote@mamasam.com>
- * @license  http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license  https://opensource.org/licenses/BSD-3-Clause BSD 3-Clause License
  * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTML_QuickForm2
+ * @link     https://pear.php.net/package/HTML_QuickForm2
  */
 class HTML_QuickForm2_Renderer_Proxy extends HTML_QuickForm2_Renderer
 {
@@ -76,7 +57,7 @@ class HTML_QuickForm2_Renderer_Proxy extends HTML_QuickForm2_Renderer
     * Additional renderer methods to proxy via __call(), as returned by exportMethods()
     * @var array
     */
-    private $_rendererMethods = array();
+    private $_rendererMethods = [];
 
    /**
     * Reference to a list of registered renderer plugins for that renderer type
@@ -88,7 +69,7 @@ class HTML_QuickForm2_Renderer_Proxy extends HTML_QuickForm2_Renderer
     * Plugins for this renderer
     * @var array
     */
-    private $_plugins = array();
+    private $_plugins = [];
 
    /**
     * Plugin methods to call via __call() magic method
@@ -97,7 +78,7 @@ class HTML_QuickForm2_Renderer_Proxy extends HTML_QuickForm2_Renderer
     *
     * @var array
     */
-    private $_pluginMethods = array();
+    private $_pluginMethods = [];
 
    /**
     * Constructor, sets proxied renderer and its plugins
@@ -127,13 +108,13 @@ class HTML_QuickForm2_Renderer_Proxy extends HTML_QuickForm2_Renderer
         $lower = strtolower($name);
         if (isset($this->_rendererMethods[$lower])) {
             // support fluent interfaces
-            $ret = call_user_func_array(array($this->_renderer, $name), $arguments);
+            $ret = call_user_func_array([$this->_renderer, $name], $arguments);
             return $ret === $this->_renderer? $this: $ret;
         }
         $this->updatePlugins();
         if (isset($this->_pluginMethods[$lower])) {
             return call_user_func_array(
-                array($this->_plugins[$this->_pluginMethods[$lower]], $name),
+                [$this->_plugins[$this->_pluginMethods[$lower]], $name],
                 $arguments
             );
         }
@@ -180,9 +161,9 @@ class HTML_QuickForm2_Renderer_Proxy extends HTML_QuickForm2_Renderer
     {
         for ($i = count($this->_plugins); $i < count($this->_pluginClasses); $i++) {
             list($className, $includeFile) = $this->_pluginClasses[$i];
-            HTML_QuickForm2_Loader::loadClass($className, $includeFile);
+            HTML_QuickForm2_Loader::loadClass($className, $includeFile, true);
 
-            $methods    = array();
+            $methods    = [];
             $plugin     = new $className;
             $reflection = new ReflectionObject($plugin);
             foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
