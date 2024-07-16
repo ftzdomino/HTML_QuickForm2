@@ -28,7 +28,7 @@
     "type": "library",
     "require": {
         "pear/pear_exception": "*",
-        "golgote/html_common2": "*"
+        "pear/html_common": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "*"
